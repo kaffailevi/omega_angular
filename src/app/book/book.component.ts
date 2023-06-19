@@ -81,7 +81,8 @@ export class BookComponent implements OnInit {
         book.title && book.title.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
         book.subtitle && book.subtitle.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
         book.publishingHouse && book.publishingHouse.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
-        book.author && book.author.toLowerCase().indexOf(key.toLowerCase()) !== -1
+        book.author && book.author.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
+        book.category && book.category.toLowerCase().indexOf(key.toLowerCase()) !== -1
       ) {
         results.push(book);
       }
@@ -116,6 +117,18 @@ export class BookComponent implements OnInit {
     button.click();
   }
 
+  public getBooksByCategory(BookCategory: String): void{
+    this.bookService.getBooks().subscribe(
+      (response: Book[]) => {
+        this.books = response;
+      },
+      (error: any) =>{
+        alert(error.message);
+      }
+      );
+  }
+
+  
 
 
 }
