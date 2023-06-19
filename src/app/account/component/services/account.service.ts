@@ -4,7 +4,7 @@ import { APIEndpointURLs } from '../../../api-endpoint-urls';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { User } from '../../../users/models/user.model';
 import { map } from 'rxjs/operators';
 
@@ -69,5 +69,9 @@ export class AccountService {
 
   getToken(): string {
     return localStorage.getItem(this.TOKEN) as string;
+  }
+
+  getUserByEmail(email: string) {
+    return this.http.get<User>(`http://localhost:8080/java-api/api/user/email/${email}`);
   }
 }

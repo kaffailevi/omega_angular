@@ -10,8 +10,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
+
+  isManager: boolean | undefined;
+
   form = this.formBuilder.group({
-    email: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
   });
 
@@ -37,7 +40,10 @@ export class LoginComponent {
       .login(this.f.email.value as string, this.f.password.value as string)
       .subscribe((result) => {
         if (result) {
-          this.router.navigate(['/book']);
+          this.accountService.getUserByEmail(this.f.email.value as string).subscribe((user) => {
+            this.isManager = user.isManager;
+            this.router.navigate(['/book'], { queryParams: { isManager: user.isManager } });
+          });
         }
       });
   }

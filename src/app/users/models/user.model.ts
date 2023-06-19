@@ -8,4 +8,5 @@ export interface User {
   email: string;
   phone: string;
   occupation: string;
+  isManager: boolean;
 }

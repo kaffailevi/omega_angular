@@ -6,6 +6,8 @@ export class APIEndpointURLs {
   public static readonly allUser = APIEndpointURLs.userUrl + '/all';
   public static readonly user = APIEndpointURLs.userUrl + '/id/';
   public static readonly myStuff = APIEndpointURLs.userUrl + '/stuff';
+  public static readonly isManager = APIEndpointURLs.userUrl + '/isManager/';
+
 
   // Auth
   public static readonly authUrl = APIEndpointURLs.baseUrl + '/auth';

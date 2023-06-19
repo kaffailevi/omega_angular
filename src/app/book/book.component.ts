@@ -3,6 +3,8 @@ import { Book } from './book';
 import { BookService } from './book.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute, Params } from '@angular/router';
+
 
 @Component({
   selector: 'app-root',
@@ -13,12 +15,18 @@ export class BookComponent implements OnInit {
   public books: Book[] | undefined;
   public editBook: Book | undefined;
   public deleteBook: Book | undefined;
+  public isManager: boolean | undefined;
 
-  constructor(private bookService: BookService) { }
+  constructor(private bookService: BookService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.getBooks();
-  }
+      this.route.queryParams.subscribe((params: Params) => {
+        this.isManager = params['isManager'] === 'true'; 
+        console.log(this.isManager);
+      });
+    }
 
   public getBooks(): void {
     this.bookService.getBooks().subscribe({
