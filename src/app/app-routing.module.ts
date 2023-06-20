@@ -11,8 +11,8 @@ import { BookComponent } from './book/book.component';
 
 const routes: Routes = [
   { path: 'users', component: UserListComponent, canActivate: [AuthGuard] },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'stuff', component: StuffListComponent, canActivate: [AuthGuard] },

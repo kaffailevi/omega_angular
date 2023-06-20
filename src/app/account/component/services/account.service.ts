@@ -4,14 +4,13 @@ import { APIEndpointURLs } from '../../../api-endpoint-urls';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { User } from '../../../users/models/user.model';
 import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
   currentUser: Subject<User> = new Subject<User>();
-
   private readonly TOKEN = 'token';
 
   constructor(private http: HttpClient, private router: Router) {
@@ -54,7 +53,7 @@ export class AccountService {
   logout() {
     localStorage.removeItem(this.TOKEN);
     // this.currentUser.next(null);
-    this.router.navigate(['home']);
+    this.router.navigate(['/home']);
   }
 
   isLoggedIn(): boolean {
@@ -72,6 +71,8 @@ export class AccountService {
   }
 
   getUserByEmail(email: string) {
-    return this.http.get<User>(`http://localhost:8080/java-api/api/user/email/${email}`);
+    return this.http.get<User>(
+      `http://localhost:8080/java-api/api/user/email/${email}`
+    );
   }
 }
