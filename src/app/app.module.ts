@@ -12,6 +12,8 @@ import { StuffListComponent } from './users/components/stuff-list/stuff-list.com
 import { UserListComponent } from './users/components/user-list/user-list.component';
 import { BookComponent } from './book/book.component';
 import { BookService } from './book/book.service';
+import { RatingsComponent } from './ratings/ratings/ratings.component';
+import { BorrowsComponent } from './borrows/borrows.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { BookService } from './book/book.service';
     RegisterComponent,
     StuffListComponent,
     BookComponent,
+    RatingsComponent,
+    BorrowsComponent,
   ],
   imports: [
     BrowserModule,
