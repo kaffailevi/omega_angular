@@ -1,9 +1,11 @@
 import {Component} from '@angular/core';
 import {Rating} from "./rating";
 
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {RatingService} from "./rating.service";
 import {Book} from "../book/book";
+import {AppComponent} from "../app.component";
+import {AccountService} from "../account/component/services/account.service";
 
 
 @Component({
@@ -15,16 +17,27 @@ export class RatingComponent {
 
   public ratings: Rating[] | undefined;
   public bookId: number | undefined;
-  private book: Book | undefined;
-
-
+  public book: Book | undefined;
+  public isLoggedIn: boolean | undefined;
+  public isManager: boolean | undefined;
+  public firstName: string | undefined;
   constructor(private activeRoute: ActivatedRoute,
-              private ratingService: RatingService) {
+              private ratingService: RatingService,
+              private route: ActivatedRoute,
+              private appComponent: AppComponent,
+              private accountService: AccountService,
+              private router: Router) {
     activeRoute.params.subscribe(
       params => {
         this.bookId = params['id'];
       });
-
+    ratingService.getBook(this.bookId).subscribe(
+      {
+        next:(value:Book) => this.book = value
+      }
+    )
+    console.log(this.book);
+    this.isLoggedIn = accountService.isLoggedIn();
   }
 
   public getRatings(): void {
@@ -51,5 +64,11 @@ export class RatingComponent {
     );
   }
 
+  login() {
+    this.router.navigate(['/login']);
+  }
 
+  logout() {
+    this.appComponent.logout();
+  }
 }
