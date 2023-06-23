@@ -39,14 +39,7 @@ export class LoginComponent {
       .login(this.f.email.value as string, this.f.password.value as string)
       .subscribe((result) => {
         if (result) {
-          this.accountService
-            .getUserByEmail(this.f.email.value as string)
-            .subscribe((user) => {
-              this.isManager = user.isManager;
-              this.router.navigate(['/book'], {
-                queryParams: { isManager: user.isManager, name:user.firstName },
-              });
-            });
+              this.router.navigate(['/book']);
         }
       });
   }

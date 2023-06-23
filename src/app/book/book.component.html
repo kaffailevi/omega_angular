@@ -16,7 +16,10 @@
   <div class="collapse navbar-collapse" id="navbarColor02">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a *ngIf="isManager" class="nav-link" (click)="onOpenModal('add')"
+        <a
+          *ngIf="role === 'ADMIN'"
+          class="nav-link"
+          (click)="onOpenModal('add')"
           >Add Book <span class="sr-only">(current)</span></a
         >
       </li>
@@ -81,7 +84,7 @@
           <div class="card-body d-flex align-items-end">
             <div class="float-right btn-group btn-group-sm">
               <a
-                *ngIf="isManager"
+                *ngIf="role === 'ADMIN'"
                 (click)="onOpenModal('edit', Book)"
                 class="btn btn-outline-info"
                 data-placement="top"
@@ -90,7 +93,7 @@
               </a>
 
               <a
-                *ngIf="isManager"
+                *ngIf="role === 'ADMIN'"
                 (click)="onOpenModal('delete', Book)"
                 class="btn btn-outline-danger"
                 data-placement="top"
@@ -98,7 +101,7 @@
                 ><i class="fa fa-times"></i
               ></a>
               <a
-                *ngIf="!isManager"
+              *ngIf="role==='USER'"
                 href="/borrow"
                 class="btn btn-outline-warning"
                 data-placement="top"
