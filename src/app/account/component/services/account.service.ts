@@ -31,7 +31,6 @@ export class AccountService {
         const result = response[this.TOKEN];
         if (result) {
           localStorage.setItem(this.TOKEN, result);
-
           // const jwt = new JwtHelperService();
           // const tempUser: User = jwt.decodeToken(localStorage.getItem(this.TOKEN));
           // console.log('tempUser: ', tempUser);
@@ -70,9 +69,26 @@ export class AccountService {
     return localStorage.getItem(this.TOKEN) as string;
   }
 
-  getUserByEmail(email: string) {
-    return this.http.get<User>(
-      `http://localhost:8080/java-api/api/user/email/${email}`
-    );
+  getRole(): string | null {
+    const token = localStorage.getItem(this.TOKEN);
+    if (token) {
+      const jwt = new JwtHelperService();
+      const decodedToken = jwt.decodeToken(token);
+      return decodedToken.role;
+      
+    }
+    return null;
   }
+
+  getFirstName(): string | null{
+    const token = localStorage.getItem(this.TOKEN);
+    if (token) {
+      const jwt = new JwtHelperService();
+      const decodedToken = jwt.decodeToken(token);
+      return decodedToken.name;
+      
+    }
+    return null;
+  }
+
 }
