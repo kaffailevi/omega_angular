@@ -15,7 +15,9 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarColor02">
     <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
 
+      </li>
     </ul>
     <a id="welcome" *ngIf="isLoggedIn">Welcome, {{ firstName }}!</a>
     <button
@@ -36,3 +38,42 @@
     </button>
   </div>
 </nav>
+<main>
+  <div class="card">
+    <div class="container">
+      <div class="image">
+        <img [src]="book?.coverImage" alt="">
+      </div>
+      <div class="details">
+        <h2>{{book?.title}}</h2>
+        <h3>{{book?.subtitle}}</h3>
+        <p>Author: <b>{{book?.author}}</b></p>
+        <p>Publishing House: <b>{{book?.publishingHouse}}</b></p>
+      </div>
+      <div class="review-form">
+        <form action="">
+          <div class="form-input">
+            <label for="review-title">Title: <br>
+              <input type="text" id="review-title"></label>
+          </div>
+          <div class="form-input">
+            <label for="review-title">Review:<br>
+              <input type="text" id="review">
+            </label>
+
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="all-reviews">
+    <div *ngFor="let rating of ratings">
+      {{rating.review_title}},
+      {{rating.review}},
+      {{rating.date}},
+      {{rating.rating}}
+    </div>
+  </div>
+</main>
+

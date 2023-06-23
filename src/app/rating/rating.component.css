@@ -3,12 +3,6 @@ body{
   margin-top:20px;
   background: #f5f5f5;
 }
-.card {
-  border: none;
-  -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);
-  box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);
-  margin-bottom: 30px;
-}
 .w-60 {
   width: 60px;
 }
@@ -111,4 +105,56 @@ h5{
   display: flex;
   justify-content: flex-end;
   margin-right: 125px;
+}
+
+
+/*
+BOOK DETAILS CSS
+*/
+main{
+
+}
+.card {
+  border: none;
+  -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);
+  padding: 10px;
+  margin-top: 15px;
+  max-width: 85%;
+  margin-right: auto;
+  margin-left: auto;
+}
+.container {
+  display: flex;
+  align-items: center;
+}
+
+.image {
+  flex-basis: 30%;
+  max-width: 200px;
+  margin-right: 20px;
+}
+
+.details {
+  flex-grow: 1;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+.review-form{
+  flex-grow: 1;
+}
+
+.form-input {
+  display: block;
+  width: 100%;
+  padding: 10px;
+}
+
+.all-reviews{
+  max-height: 500px;
+  scroll-behavior: auto;
+  overflow-y: hidden;
 }

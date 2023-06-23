@@ -19,8 +19,8 @@ export class RatingComponent {
   public bookId: number | undefined;
   public book: Book | undefined;
   public isLoggedIn: boolean | undefined;
-  public isManager: boolean | undefined;
-  public firstName: string | undefined;
+  public role: string | null;
+  public firstName: string | null;
   constructor(private activeRoute: ActivatedRoute,
               private ratingService: RatingService,
               private route: ActivatedRoute,
@@ -38,6 +38,8 @@ export class RatingComponent {
     )
     console.log(this.book);
     this.isLoggedIn = accountService.isLoggedIn();
+    this.firstName = accountService.getFirstName();
+    this.role = accountService.getRole();
   }
 
   public getRatings(): void {
