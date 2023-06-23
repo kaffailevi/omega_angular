@@ -16,9 +16,17 @@ export class APIEndpointURLs {
 
   // Book
   public static readonly bookUrl = APIEndpointURLs.baseUrl + '/book';
+  public static readonly bookById = APIEndpointURLs.bookUrl + '/id/';
   public static readonly allBooks = APIEndpointURLs.bookUrl + '/all';
   public static readonly newBook = APIEndpointURLs.bookUrl + '/new';
   public static readonly book = APIEndpointURLs.bookUrl + '/id/';
+
+  // Rating
+  public static readonly ratingUrl : string = APIEndpointURLs.baseUrl + '/rating';
+  public static readonly ratingsByBookId : string = APIEndpointURLs.ratingUrl + '/bookId/';
+  public static readonly ratingsByUserId : string = APIEndpointURLs.ratingUrl + '/userId/';
+  public static readonly ratingNew : string = APIEndpointURLs.ratingUrl + '/save';
+  public static readonly ratingDelete = APIEndpointURLs.ratingUrl + '/delete/';
 
 
 }
