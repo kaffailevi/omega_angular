@@ -94,7 +94,6 @@ export class BookComponent implements OnInit {
   }
 
   public searchBooks(key: string): void {
-    console.log(key);
     const results: Book[] = [];
     for (const book of this.books!) {
       if (
