@@ -75,7 +75,7 @@ export class AccountService {
       const jwt = new JwtHelperService();
       const decodedToken = jwt.decodeToken(token);
       return decodedToken.role;
-      
+
     }
     return null;
   }
@@ -86,7 +86,17 @@ export class AccountService {
       const jwt = new JwtHelperService();
       const decodedToken = jwt.decodeToken(token);
       return decodedToken.name;
-      
+
+    }
+    return null;
+  }
+  getId(): string | null{
+    const token = localStorage.getItem(this.TOKEN);
+    if (token) {
+      const jwt = new JwtHelperService();
+      const decodedToken = jwt.decodeToken(token);
+      return decodedToken.id;
+
     }
     return null;
   }

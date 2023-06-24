@@ -2,15 +2,18 @@ body {
   margin-top: 20px;
   background: #f5f5f5;
 }
+
 .card {
   border: none;
   -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   margin-bottom: 30px;
 }
+
 .w-60 {
   width: 60px;
 }
+
 h1,
 h2,
 h3,
@@ -220,4 +223,66 @@ div.details > h2 {
 
 div.details > h3 p {
   font-size: 2vw;
+}
+
+#add-new-button {
+  border-color: #999950;
+  color: #999950;
+  background: white;
+  padding: 15px 20px 15px 20px;
+  text-align: center;
+  width: 25%;
+
+  border-radius: 10px;
+
+}
+
+#add-new-button > span {
+  margin-top: auto;
+  margin-bottom: auto;
+  font-size: 2vw;
+}
+
+#add-new-button:hover {
+  background-color: #999950;
+  color: white;
+}
+
+#add-new-button:active {
+  background-color: rgba(153, 153, 80, 0.73);
+  color: white;
+}
+
+/* Modális ablak stílusa */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.close-align{
+  margin-left: 95%;
+}
+
+option > img
+{
+  height: 20px;
 }

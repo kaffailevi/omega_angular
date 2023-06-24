@@ -22,4 +22,7 @@ export class RatingService {
     return this.http.get<Book>(APIEndpointURLs.bookById + bookId);
   }
 
+  addRating(rating: Rating) {
+    return this.http.post<Rating>(APIEndpointURLs.ratingNew, rating);
+  }
 }

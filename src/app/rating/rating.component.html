@@ -38,7 +38,7 @@
     </button>
   </div>
 </nav>
-<main>
+<main id="main-container">
   <div class="card">
     <div class="container">
       <div class="image">
@@ -49,25 +49,18 @@
         <h3>{{book?.subtitle}}</h3>
         <p>Author: <b>{{book?.author}}</b></p>
         <p>Publishing House: <b>{{book?.publishingHouse}}</b></p>
+        <div *ngIf="isLoggedIn">
+          <button id="add-new-button" (click)="onOpenModal('add')">
+            <span>
+              Add new
+            </span>
+          </button>
+        </div>
       </div>
-<!--      <div class="review-form">-->
-<!--        <form action="">-->
-<!--          <div class="form-input">-->
-<!--            <label for="review-title">Title: <br>-->
-<!--              <input type="text" id="review-title"></label>-->
-<!--          </div>-->
-<!--          <div class="form-input">-->
-<!--            <label for="review-title">Review:<br>-->
-<!--              <input type="text" id="review">-->
-<!--            </label>-->
 
-<!--          </div>-->
-
-<!--        </form>-->
-<!--      </div>-->
     </div>
   </div>
-  <div  class="all-reviews">
+  <div class="all-reviews">
     <div class="reviews">
       <div class="review card" *ngFor="let rating of ratings">
         <div class="title">
@@ -75,7 +68,7 @@
             {{rating.review_title}}
           </h3>
           <div class="title-item">
-            <img src="assets/stars/{{rating.rating}}.png" />
+            <img src="assets/stars/{{rating.rating}}.png"/>
           </div>
 
         </div>
@@ -86,5 +79,90 @@
       </div>
     </div>
   </div>
+
+
+  <div class="modal" id="addModal">
+    <div class="modal-content">
+
+      <form #addForm="ngForm" (ngSubmit)="onAddRating(addForm)">
+        <div class="form-group">
+          <label for="review_title">Title</label>
+          <input
+            type="textarea"
+            ngModel
+            name="review_title"
+            class="form-control"
+            id="review_title"
+            placeholder="Title"
+            required
+
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="review">Review</label>
+          <textarea
+            type="text"
+            ngModel
+            name="review"
+            class="form-control"
+            id="review"
+            placeholder="I really enjoyed this book because..."
+            required
+            rows="3"
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <label for="rating">Rating</label>
+          <select
+            id="rating" name="rating"
+            ngModel
+            class="form-control"
+          >
+            <option value="RATING1" >
+            1 star
+            </option>
+            <option value="RATING2">
+              2 stars
+            </option>
+            <option value="RATING3">
+              3 stars
+            </option>
+            <option value="RATING4">
+              4 stars
+            </option>
+            <option value="RATING5">
+              5 stars
+            </option>
+          </select>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            id="add-Book-form"
+            class="btn btn-outline-secondary"
+            data-bs-dismiss="modal"
+            (click)="onCloseModal('add')"
+          >
+            Close
+          </button>
+          <button
+            [disabled]="addForm.invalid"
+            type="submit"
+            class="btn btn-outline-success"
+            data-bs-toggle="modal"
+            data-bs-dismiss="modal"
+          >
+            Save changes
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
 </main>
+
+
 
