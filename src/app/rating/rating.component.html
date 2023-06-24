@@ -67,12 +67,23 @@
       </div>
     </div>
   </div>
-  <div class="all-reviews">
-    <div *ngFor="let rating of ratings">
-      {{rating.review_title}},
-      {{rating.review}},
-      {{rating.date}},
-      {{rating.rating}}
+  <div  class="all-reviews">
+    <div class="reviews">
+      <div class="review card" *ngFor="let rating of ratings">
+        <div class="title">
+          <h3 class="title-item">
+            {{rating.review_title}}
+          </h3>
+          <div class="title-item">
+            <img src="assets/stars/{{rating.rating}}.png" />
+          </div>
+
+        </div>
+
+        <p>{{rating.review}}</p>
+        <p>{{rating.date}}</p>
+
+      </div>
     </div>
   </div>
 </main>
