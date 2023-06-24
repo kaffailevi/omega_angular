@@ -3,10 +3,9 @@ import { Book } from './book';
 import { BookService } from './book.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { AccountService } from '../account/component/services/account.service';
-import { User } from '../users/models/user.model';
 
 @Component({
   selector: 'app-root',
@@ -17,18 +16,19 @@ export class BookComponent implements OnInit {
   public books: Book[] | undefined;
   public editBook: Book | undefined;
   public deleteBook: Book | undefined;
-  public isManager: boolean | undefined;
   public isLoggedIn: boolean | undefined;
-  public firstName: String | undefined;
+  public firstName: String | null;
+  public role: String | null;
 
   constructor(
     private bookService: BookService,
-    private route: ActivatedRoute,
     private appComponent: AppComponent,
     private accountService: AccountService,
     private router: Router
   ) {
     this.isLoggedIn = accountService.isLoggedIn();
+    this.firstName = accountService.getFirstName();
+    this.role = accountService.getRole();
   }
 
   logout() {
@@ -41,10 +41,6 @@ export class BookComponent implements OnInit {
 
   ngOnInit() {
     this.getBooks();
-    this.route.queryParams.subscribe((params: Params) => {
-      this.isManager = params['isManager'] === 'true';
-      this.firstName = params['name'];
-    });
   }
 
   public getBooks(): void {
@@ -98,7 +94,6 @@ export class BookComponent implements OnInit {
   }
 
   public searchBooks(key: string): void {
-    console.log(key);
     const results: Book[] = [];
     for (const book of this.books!) {
       if (
