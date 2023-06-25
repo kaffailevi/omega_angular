@@ -15,6 +15,7 @@ import { BookService } from './book/book.service';
 import { UserService } from './users/services/user.service';
 import { RouterModule } from '@angular/router';
 import { AccountService } from './account/component/services/account.service';
+import {RatingComponent} from "./rating/rating.component";
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { AccountService } from './account/component/services/account.service';
     RegisterComponent,
     StuffListComponent,
     BookComponent,
+    RatingComponent
   ],
   imports: [
     BrowserModule,
