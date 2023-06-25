@@ -29,11 +29,15 @@ export class RatingService {
   }
 
   getUsername(userId: number): Observable<string> {
-     {
+    {
       return this.http.get<User>(APIEndpointURLs.user + userId).pipe(
         map(user => user?.username)
       );
     }
+  }
+
+  deleteById(ratingId: number | undefined) {
+    return this.http?.delete(APIEndpointURLs.ratingDelete + ratingId);
   }
 
 }

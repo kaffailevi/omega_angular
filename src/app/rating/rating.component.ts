@@ -10,6 +10,7 @@ import {NgForm} from "@angular/forms";
 import {HttpErrorResponse} from "@angular/common/http";
 import {DatePipe} from "@angular/common";
 import {RatingUser} from "./rating.user";
+import {RatingEnum} from "./rating.enum";
 
 
 @Component({
@@ -25,8 +26,8 @@ export class RatingComponent {
   public isLoggedIn: boolean | undefined;
   public role: string | null;
   public firstName: string | null;
-  public deleteRating: Rating | undefined;
-
+  private deleteRating: RatingUser | null;
+  protected static readonly ratingEnum : RatingEnum;
 
   constructor(private activeRoute: ActivatedRoute,
               private ratingService: RatingService,
@@ -47,10 +48,8 @@ export class RatingComponent {
     this.isLoggedIn = accountService.isLoggedIn();
     this.firstName = accountService.getFirstName();
     this.role = accountService.getRole();
-
-
+    this.deleteRating = null;
   }
-
 
 
   public getRatings(): void {
@@ -58,7 +57,7 @@ export class RatingComponent {
       {
         next: (value: Rating[]) => {
           this.ratings = value.map<RatingUser>((rating, index, array) => {
-            let username:string = "";
+            let username: string = "";
 
             let tmp: RatingUser = {
               id: rating.id,
@@ -97,29 +96,48 @@ export class RatingComponent {
     this.appComponent.logout();
   }
 
-  public onOpenModal(mode: string,rating : RatingUser | null): void {
+  public onOpenModal(mode: string, rating: RatingUser | null): void {
 
     let addModal: HTMLElement | null = document.getElementById('addModal');
-    let deleteModal:HTMLElement | null =  document.getElementById("deleteModal");
-      if (mode === "add") {
+    let deleteModal: HTMLElement | null = document.getElementById("deleteModal");
+    if (mode === "add") {
       addModal?.style.setProperty('display', 'inline-flex');
     }
-    if(mode === "delete")
-    {
-
+    if (mode === "delete") {
+      deleteModal?.style.setProperty('display', 'inline-flex');
+      this.deleteRating = rating;
     }
+
 
   }
 
   onCloseModal(mode: string) {
     let addModal: HTMLElement | null = document.getElementById('addModal');
+    let deleteModal: HTMLElement | null = document.getElementById('deleteModal');
     if (mode === "add") {
       addModal?.style.setProperty('display', 'none');
     }
+
+    if (mode === "delete") {
+      deleteModal?.style.setProperty('display', 'none');
+    }
   }
 
-  onDeleteRating(ratingId: number) {
-
+  onDeleteRating() {
+    if (this.deleteRating != null) {
+      this.ratingService.deleteById(this.deleteRating?.id)?.subscribe(
+        {
+          next: response => {
+            console.log(response);
+            this.getRatings();
+          },
+          error: (error: HttpErrorResponse) => {
+            alert(error.message);
+          }
+        }
+      );
+    }
+    this.onCloseModal("delete");
   }
 
   onAddRating(addForm: NgForm) {
@@ -149,10 +167,9 @@ export class RatingComponent {
         addForm.reset();
       },
     });
+    this.onCloseModal('add');
   }
 
-  // getUsername(userId:number) : string | null
-  // {
-  //   return this.ratingService.getUsername(userId);
-  // }
+
+  protected readonly RatingEnum = RatingEnum;
 }
