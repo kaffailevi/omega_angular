@@ -90,15 +90,17 @@ export class AccountService {
     }
     return null;
   }
+
   getId(): string | null{
     const token = localStorage.getItem(this.TOKEN);
     if (token) {
       const jwt = new JwtHelperService();
       const decodedToken = jwt.decodeToken(token);
-      return decodedToken.id;
+      return decodedToken.jti;
 
     }
     return null;
   }
+
 
 }

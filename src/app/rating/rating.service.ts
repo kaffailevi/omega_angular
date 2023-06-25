@@ -5,6 +5,8 @@ import {Observable} from "rxjs";
 
 import {Rating} from "./rating";
 import {Book} from "../book/book";
+import {User} from "../users/models/user.model";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -25,4 +27,13 @@ export class RatingService {
   addRating(rating: Rating) {
     return this.http.post<Rating>(APIEndpointURLs.ratingNew, rating);
   }
+
+  getUsername(userId: number): Observable<string> {
+     {
+      return this.http.get<User>(APIEndpointURLs.user + userId).pipe(
+        map(user => user?.username)
+      );
+    }
+  }
+
 }

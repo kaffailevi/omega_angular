@@ -8,8 +8,8 @@ import {AppComponent} from "../app.component";
 import {AccountService} from "../account/component/services/account.service";
 import {NgForm} from "@angular/forms";
 import {HttpErrorResponse} from "@angular/common/http";
-import {User} from "../users/models/user.model";
 import {DatePipe} from "@angular/common";
+import {RatingUser} from "./rating.user";
 
 
 @Component({
@@ -19,13 +19,15 @@ import {DatePipe} from "@angular/common";
 })
 export class RatingComponent {
 
-  public ratings: Rating[] | undefined;
+  public ratings: RatingUser[] | undefined;
   public bookId: number | undefined;
   public book: Book | undefined;
   public isLoggedIn: boolean | undefined;
   public role: string | null;
   public firstName: string | null;
   public deleteRating: Rating | undefined;
+
+
   constructor(private activeRoute: ActivatedRoute,
               private ratingService: RatingService,
               private route: ActivatedRoute,
@@ -38,12 +40,8 @@ export class RatingComponent {
       });
     ratingService.getBook(this.bookId).subscribe(
       {
-        next:(value:Book) => this.book = value
+        next: (value: Book) => this.book = value
       }
-
-
-
-
     )
     console.log(this.book);
     this.isLoggedIn = accountService.isLoggedIn();
@@ -51,23 +49,34 @@ export class RatingComponent {
     this.role = accountService.getRole();
 
 
-
-
-
   }
+
+
 
   public getRatings(): void {
     this.ratingService.getRatingsByBookId(this.bookId).subscribe(
       {
         next: (value: Rating[]) => {
-          this.ratings = value;
-          console.log(this.ratings);
+          this.ratings = value.map<RatingUser>((rating, index, array) => {
+            let username:string = "";
+
+            let tmp: RatingUser = {
+              id: rating.id,
+              user_name: username,
+              rating: rating.rating,
+              review_title: rating.review_title,
+              review: rating.review,
+              date: rating.date
+            };
+            return tmp;
+          });
         },
         error: (error: any) => {
           alert(error.message);
         },
       }
-    )
+    );
+    console.log(this.ratings);
   }
 
   ngOnInit() {
@@ -88,32 +97,33 @@ export class RatingComponent {
     this.appComponent.logout();
   }
 
-  public onOpenModal(mode: string): void {
+  public onOpenModal(mode: string,rating : RatingUser | null): void {
 
-    let addModal:HTMLElement | null = document.getElementById('addModal');
-    if(mode === "add")
+    let addModal: HTMLElement | null = document.getElementById('addModal');
+    let deleteModal:HTMLElement | null =  document.getElementById("deleteModal");
+      if (mode === "add") {
+      addModal?.style.setProperty('display', 'inline-flex');
+    }
+    if(mode === "delete")
     {
-      addModal?.style.setProperty('display','inline-flex');
+
     }
 
   }
 
-  onCloseModal(mode:string)
-  {
-    let addModal:HTMLElement | null = document.getElementById('addModal');
-    if(mode === "add")
-    {
-      addModal?.style.setProperty('display','none');
+  onCloseModal(mode: string) {
+    let addModal: HTMLElement | null = document.getElementById('addModal');
+    if (mode === "add") {
+      addModal?.style.setProperty('display', 'none');
     }
   }
 
-  onDeleteRating(ratingId:number)
-  {
+  onDeleteRating(ratingId: number) {
 
   }
 
   onAddRating(addForm: NgForm) {
-    let rating : Rating = addForm.value;
+    let rating: Rating = addForm.value;
     const datepipe: DatePipe = new DatePipe('en-US');
     let now = datepipe.transform(Date.now(), 'YYYY-MM-dd');
     if (now != null) {
@@ -121,11 +131,13 @@ export class RatingComponent {
     }
 
     if (this.bookId != null) {
-      rating.bookId = this.bookId;
+      rating.book_id = this.bookId;
     }
-  console.log(this.accountService.getId())
 
-   console.log(rating);
+    let userId = this.accountService.getId();
+    rating.user_id = Number(userId);
+
+    console.log(rating);
     this.ratingService.addRating(rating).subscribe({
       next: (response: Rating) => {
         console.log(response);
@@ -138,4 +150,9 @@ export class RatingComponent {
       },
     });
   }
+
+  // getUsername(userId:number) : string | null
+  // {
+  //   return this.ratingService.getUsername(userId);
+  // }
 }

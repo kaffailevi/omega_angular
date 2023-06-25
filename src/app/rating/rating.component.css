@@ -231,7 +231,7 @@ div.details > h3 p {
   background: white;
   padding: 15px 20px 15px 20px;
   text-align: center;
-  width: 25%;
+  width: 20%;
 
   border-radius: 10px;
 
@@ -240,7 +240,7 @@ div.details > h3 p {
 #add-new-button > span {
   margin-top: auto;
   margin-bottom: auto;
-  font-size: 2vw;
+  font-size: 1.5vw;
 }
 
 #add-new-button:hover {
