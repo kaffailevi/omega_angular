@@ -12,7 +12,9 @@ import { StuffListComponent } from './users/components/stuff-list/stuff-list.com
 import { UserListComponent } from './users/components/user-list/user-list.component';
 import { BookComponent } from './book/book.component';
 import { BookService } from './book/book.service';
-import { RatingComponent } from './rating/rating.component';
+import { UserService } from './users/services/user.service';
+import { RouterModule } from '@angular/router';
+import { AccountService } from './account/component/services/account.service';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,6 @@ import { RatingComponent } from './rating/rating.component';
     RegisterComponent,
     StuffListComponent,
     BookComponent,
-    RatingComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,8 +32,9 @@ import { RatingComponent } from './rating/rating.component';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    RouterModule
   ],
-  providers: [BookService],
+  providers: [BookService, UserService, AccountService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -6,6 +6,8 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { AccountService } from '../account/component/services/account.service';
+import { AppRoutingModule } from '../app-routing.module';
+import { APIEndpointURLs } from '../api-endpoint-urls';
 
 @Component({
   selector: 'app-root',
@@ -37,6 +39,10 @@ export class BookComponent implements OnInit {
 
   login() {
     this.router.navigate(['/login']);
+  }
+
+  goToUsersPage() {
+    this.router.navigate(['/users']);
   }
 
   ngOnInit() {
@@ -84,7 +90,6 @@ export class BookComponent implements OnInit {
   public onDeleteBook(BookId: number): void {
     this.bookService.deleteBooks(BookId).subscribe({
       next: () => {
-        console.log('Deletion successful');
         this.getBooks();
       },
       error: (error: HttpErrorResponse) => {
