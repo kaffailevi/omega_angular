@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, Validators } from '@angular/forms';
+import {AbstractControl, FormBuilder, Validators} from '@angular/forms';
 
 import { AccountService } from '../services/account.service';
 import { Component } from '@angular/core';
@@ -14,7 +14,7 @@ export class RegisterComponent {
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    phone: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10)]],
+    phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
     username: ['', Validators.required],
     password: ['', [Validators.required, Validators.minLength(6)]],
     occupation: ['', Validators.required],
@@ -56,4 +56,13 @@ export class RegisterComponent {
       },
     });
   }
+
+  /*validatePhoneNumber(control: AbstractControl) {
+    const phoneNumber = control.value;
+    if (phoneNumber && phoneNumber.length !== 10) {
+      return { phoneNumberInvalid: true };
+    }
+    return null;
+  }*/
+
 }
