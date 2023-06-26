@@ -10,6 +10,7 @@ import {AccountService} from "../account/component/services/account.service";
 import {Book} from "../book/book";
 import {UserService} from "../users/services/user.service";
 import {BorrowsTo} from "./borrows.to";
+import {User} from "../users/models/user.model";
 
 
 @Component({
@@ -54,7 +55,7 @@ export class BorrowsComponent {
         }
       }
     )
-
+    this.borrows = [];
   }
 
   ngOnInit() {
@@ -63,23 +64,52 @@ export class BorrowsComponent {
   }
 
   public getBorrows(): void {
-    let tmp: Borrows[] | null;
-    tmp = null;
+    let users: User[];
+    this.userService.getAllUsers().subscribe(
+      value => users = value
+    );
+
     this.borrowsService.getBorrows().subscribe({
       next: (value: Borrows[]) => {
-        tmp = value;
 
+        for (let item of value) {
+          let userId = item.userId;
+          let bookId = item.bookId;
+          let loanDate = item.loanDate;
+          let returnDate = item.returnDate;
+          let id = item.id;
+          let user = users.find(it => {
+            return it.id === item.userId
+          });
+//TODO: MEGOLDANI HOGY MUKODJON
+
+
+            this.userService.getUserById(userId).subscribe(
+              value1 => {
+                const convertedItem: BorrowsTo = {
+                  id: id,
+                  bookId: bookId,
+                  userEmail: user?.email,
+                  userId : userId,
+                  loanDate: loanDate,
+                  returnDate: returnDate
+                };
+                this.borrows?.push(convertedItem);
+                console.log(convertedItem);
+              }
+            );
+
+
+
+        }
         console.log(this.borrows);
       },
       error: (error: any) => {
         alert(error.message);
       }
     });
-    if (tmp != null){
-      for (const item of tmp) {
-        const convertedItem: BorrowsTo = new BorrowsTo(item.property1, item.property2);
-        convertedArray.push(convertedItem);
-      }  }
+
+
   }
 
   public onDeleteBorrows(BorrwowId: number): void {
@@ -101,6 +131,7 @@ export class BorrowsComponent {
   logout() {
     this.appComponent.logout();
   }
+
 
 
 }

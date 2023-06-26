@@ -141,5 +141,14 @@ export class BookComponent implements OnInit {
     }
     container.appendChild(button);
     button.click();
+    if (mode === 'view') {
+    let modal = document.getElementById("borrowModal");
+    modal?.style.setProperty("display","block");
+   }
+  }
+
+  onCloseModal() {
+    let modal = document.getElementById('borrowModal');
+    modal?.style.setProperty("display","none");
   }
 }

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark" >
+<nav class="navbar navbar-expand-lg navbar-dark">
   <a class="navbar-brand" style="color: white" href="/book"
   >Library Management</a
   >
@@ -75,7 +75,10 @@
         </div>
 
         <p>{{rating.review}}</p>
-        <p>{{rating.date}}</p>
+        <p>
+          <b>
+            {{rating.user_name}}:
+          </b> {{rating.date}}</p>
         <a
           *ngIf="role === 'ADMIN'"
           (click)="onOpenModal('delete', rating)"
@@ -89,7 +92,7 @@
   </div>
 
 
-  <div class="modal" id="addModal" >
+  <div class="modal" id="addModal">
     <div class="modal-content">
 
       <form #addForm="ngForm" (ngSubmit)="onAddRating(addForm)">
@@ -127,8 +130,8 @@
             ngModel
             class="form-control"
           >
-            <option value="{{RatingEnum.RATING1}}" >
-            1 star
+            <option value="{{RatingEnum.RATING1}}">
+              1 star
             </option>
             <option value="{{RatingEnum.RATING2}}">
               2 stars
@@ -161,7 +164,7 @@
             [disabled]="addForm.invalid"
             type="submit"
             class="btn btn-outline-success"
-        >
+          >
             Save changes
           </button>
         </div>
@@ -172,9 +175,9 @@
 
   <div class="modal" id="deleteModal">
     <div class="modal-content">
-  <div class="modal-content">
-    <h4>Are you sure you want to delete this rating?</h4>
-  </div>
+      <div class="modal-content">
+        <h4>Are you sure you want to delete this rating?</h4>
+      </div>
       <div class="modal-footer">
         <button
           type="button"

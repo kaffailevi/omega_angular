@@ -31,7 +31,7 @@ export class RatingService {
   getUsername(userId: number): Observable<string> {
     {
       return this.http.get<User>(APIEndpointURLs.user + userId).pipe(
-        map(user => user?.username)
+        map(user => user?.firstName+' ' + user.lastName)
       );
     }
   }

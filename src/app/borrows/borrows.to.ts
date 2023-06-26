@@ -1,15 +1,10 @@
 
-export class BorrowsTo{
-  constructor(id: number, bookId: number, userName: string, loanDate: Date, returnDate: Date) {
-    this.id = id;
-    this.bookId = bookId;
-    this.userName = userName;
-    this.loanDate = loanDate;
-    this.returnDate = returnDate;
-  }
+export interface BorrowsTo{
+
   id: number;
   bookId: number;
-  userName: string;
+  userEmail: string | undefined;
+  userId: number ;
   loanDate: Date;
   returnDate: Date;
 }

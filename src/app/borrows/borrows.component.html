@@ -64,7 +64,7 @@
   </div>
 
   <div *ngFor="let borrow of borrows">
-    {{borrow.userId}},{{borrow.bookId}},{{borrow.loanDate}},{{borrow.returnDate}}
+    {{borrow.userEmail}},{{borrow.bookId}},{{borrow.loanDate}},{{borrow.returnDate}}
   </div>
 </main>
 
@@ -72,4 +72,6 @@
 <main *ngIf="!(role==='ADMIN')">
   YOU HAVE TO BE MANAGER
 </main>
+
+
 
