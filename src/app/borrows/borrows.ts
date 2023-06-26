@@ -1,4 +1,4 @@
-import { Book } from './../book/book';
+
 export interface Borrows{
     id: number;
     bookId: number;

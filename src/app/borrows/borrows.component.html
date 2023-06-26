@@ -63,7 +63,9 @@
     </div>
   </div>
 
-
+  <div *ngFor="let borrow of borrows">
+    {{borrow.userId}},{{borrow.bookId}},{{borrow.loanDate}},{{borrow.returnDate}}
+  </div>
 </main>
 
 

@@ -8,6 +8,9 @@ import {RatingService} from "../rating/rating.service";
 import {AppComponent} from "../app.component";
 import {AccountService} from "../account/component/services/account.service";
 import {Book} from "../book/book";
+import {UserService} from "../users/services/user.service";
+import {BorrowsTo} from "./borrows.to";
+
 
 @Component({
   selector: 'app-borrows',
@@ -16,21 +19,22 @@ import {Book} from "../book/book";
 })
 export class BorrowsComponent {
 
-  public borrows: Borrows[] | undefined;
+  public borrows: BorrowsTo[] | undefined;
   public deleteBorrows: Borrows | undefined;
   public firstName: string | null;
-  public isLoggedIn:boolean | undefined;
-  public role : string | null;
-  public bookId : number | undefined;
-  public book : Book | undefined;
+  public isLoggedIn: boolean | undefined;
+  public role: string | null;
+  public bookId: number | undefined;
+  public book: Book | undefined;
 
   constructor(private borrowsService: BorrowsService,
-              private router : Router,
+              private router: Router,
               private activeRoute: ActivatedRoute,
               private ratingService: RatingService,
               private route: ActivatedRoute,
               private appComponent: AppComponent,
-              private accountService: AccountService) {
+              private accountService: AccountService,
+              private userService: UserService) {
 
     this.isLoggedIn = accountService.isLoggedIn();
     this.firstName = accountService.getFirstName();
@@ -45,9 +49,9 @@ export class BorrowsComponent {
         next: value => {
           this.book = value;
         },
-        error:(err:HttpErrorResponse)=> {
+        error: (err: HttpErrorResponse) => {
           alert(err.message);
-    }
+        }
       }
     )
 
@@ -59,16 +63,23 @@ export class BorrowsComponent {
   }
 
   public getBorrows(): void {
+    let tmp: Borrows[] | null;
+    tmp = null;
     this.borrowsService.getBorrows().subscribe({
       next: (value: Borrows[]) => {
-        this.borrows = value;
+        tmp = value;
+
         console.log(this.borrows);
       },
       error: (error: any) => {
         alert(error.message);
       }
     });
-
+    if (tmp != null){
+      for (const item of tmp) {
+        const convertedItem: BorrowsTo = new BorrowsTo(item.property1, item.property2);
+        convertedArray.push(convertedItem);
+      }  }
   }
 
   public onDeleteBorrows(BorrwowId: number): void {
