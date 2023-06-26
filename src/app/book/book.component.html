@@ -1,52 +1,78 @@
-
-<nav class="navbar navbar-expand-lg navbar-dark " margin-bottom="30px">
-    <a class="navbar-brand" style="color: white">Library Management</a>
+<nav class="navbar navbar-expand-lg navbar-dark" margin-bottom="30px">
+  <a class="navbar-brand" style="color: white" href="/book"
+    >Library Management</a
+  >
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#navbarColor02"
+    aria-controls="navbarColor02"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarColor02">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a
+          *ngIf="role === 'ADMIN'"
+          class="nav-link"
+          (click)="onOpenModal('add')"
+          >Add Book <span class="sr-only">(current)</span></a
+        >
+      </li>
+      <li class="nav-item inactive">
+        <a 
+        *ngIf="role === 'ADMIN'" 
+        class="nav-link" 
+        (click)="goToUsersPage()"
+        >User Managment<span class="sr-only">(current)</span>
+        </a>
+      </li>
+    </ul>
+    <a id="welcome" *ngIf="isLoggedIn">Welcome, {{ firstName }}!</a>
     <button
-      class="navbar-toggler"
-      type="button"
-      data-toggle="collapse"
-      data-target="#navbarColor02"
-      aria-controls="navbarColor02"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
+      id="loginBtn"
+      *ngIf="isLoggedIn"
+      style="color: white"
+      (click)="logout()"
     >
-      <span class="navbar-toggler-icon"></span>
+      Logout
     </button>
-    <div class="collapse navbar-collapse" id="navbarColor02">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" (click)="onOpenModal('add')"
-            >Add Book <span class="sr-only">(current)</span></a
-          >
-        </li>
-      </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input
-          type="search"
-          (ngModelChange)="searchBooks(key.value)"
-          #key="ngModel"
-          ngModel
-          name="key"
-          id="searchName"
-          class="form-control mr-sm-2"
-          placeholder="Search Books..."
-          required
-        />
-      </form>
-    </div>
-  </nav>
-  <div id="page">
+    <button
+      id="logoutBtn"
+      *ngIf="!isLoggedIn"
+      style="color: white"
+      (click)="login()"
+    >
+      Login
+    </button>
+  </div>
+</nav>
+<div id="page">
+  <form class="form-inline my-2 my-lg-0">
+    <input
+      type="search"
+      (ngModelChange)="searchBooks(key.value)"
+      #key="ngModel"
+      ngModel
+      name="key"
+      id="searchName"
+      class="form-control mr-sm-2"
+      placeholder="Search Books..."
+      required
+    />
+  </form>
   <div class="container" id="main-container">
-    <div class="row" >
+    <div class="row">
       <div *ngFor="let Book of books" class="col-md-6 col-xl-3 d-flex">
         <div class="card m-b-30">
           <div class="card-body row">
             <div class="col-6">
-              <a href=""
-                ><img
-                  [src]="Book?.coverImage"
-                  alt=""
-                  class="img-fluid mh-100"
+              <a href="/reviews/{{ Book?.id }}"
+                ><img [src]="Book?.coverImage" alt="" class="img-fluid mh-100"
               /></a>
             </div>
             <div class="col-6 card-title align-self-center mb-0">
@@ -59,32 +85,43 @@
               <i class="fa float-right"></i>Author : {{ Book?.author }}
             </li>
             <li class="list-group-item">
-              <i class="fa float-right"></i>Published by: {{ Book?.publishingHouse }}
+              <i class="fa float-right"></i>Published by:
+              {{ Book?.publishingHouse }}
             </li>
           </ul>
           <div class="card-body d-flex align-items-end">
             <div class="float-right btn-group btn-group-sm">
               <a
+                *ngIf="role === 'ADMIN'"
                 (click)="onOpenModal('edit', Book)"
                 class="btn btn-outline-info"
-                data-placement="top"
-                data-original-title="Edit"
+                data-bs-placement="top"
+                data-bs-original-title="Edit"
                 ><i class="fa fa-pencil"></i>
               </a>
-              
+
               <a
+                *ngIf="role === 'ADMIN'"
                 (click)="onOpenModal('delete', Book)"
                 class="btn btn-outline-danger"
-                data-placement="top"
-                data-original-title="Delete"
+                data-bs-placement="top"
+                data-bs-original-title="Delete"
                 ><i class="fa fa-times"></i
+              ></a>
+              <a
+                *ngIf="role === 'USER'"
+                href="/borrow"
+                class="btn btn-outline-warning"
+                data-bs-placement="top"
+                data-bs-original-title="Delete"
+                ><i class="fa fa-book"></i
               ></a>
             </div>
           </div>
         </div>
       </div>
     </div>
-  
+
     <!-- Add Book Modal -->
     <div
       class="modal fade"
@@ -101,14 +138,14 @@
             <button
               type="button"
               class="close"
-              data-dismiss="modal"
+              data-bs-dismiss="modal"
               aria-label="Close"
             >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <form #addForm="ngForm" (ngSubmit)="onAddBook(addForm)" >
+            <form #addForm="ngForm" (ngSubmit)="onAddBook(addForm)">
               <div class="form-group">
                 <label for="title">Title</label>
                 <input
@@ -130,7 +167,6 @@
                   class="form-control"
                   id="subtitle"
                   placeholder="Subtitle"
-              
                 />
               </div>
               <div class="form-group">
@@ -182,7 +218,7 @@
                   [disabled]="addForm.invalid"
                   type="submit"
                   class="btn btn-outline-success"
-                  data-toggle="modal"
+                  data-bs-toggle="modal"
                   data-bs-dismiss="modal"
                 >
                   Save changes
@@ -193,7 +229,7 @@
         </div>
       </div>
     </div>
-  
+
     <!-- Edit Modal -->
     <div
       class="modal fade"
@@ -234,7 +270,7 @@
               </div>
               <input
                 type="hidden"
-                [ngModel]="editBook?.id "
+                [ngModel]="editBook?.id"
                 name="id"
                 class="form-control"
                 id="id"
@@ -314,7 +350,7 @@
         </div>
       </div>
     </div>
-  
+
     <!-- Delete Modal -->
     <div
       class="modal fade"
@@ -338,9 +374,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <p>
-              Are you sure you want to delete Book {{ deleteBook?.title }}?
-            </p>
+            <p>Are you sure you want to delete Book {{ deleteBook?.title }}?</p>
             <div class="modal-footer">
               <button
                 type="button"
@@ -362,7 +396,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Notification for no Books -->
   <div *ngIf="books?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
     <div class="alert alert-warning" role="alert">
@@ -370,5 +404,4 @@
       <p>No books were found.</p>
     </div>
   </div>
-  
 </div>

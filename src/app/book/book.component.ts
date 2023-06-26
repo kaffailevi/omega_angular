@@ -3,18 +3,47 @@ import { Book } from './book';
 import { BookService } from './book.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AppComponent } from '../app.component';
+import { AccountService } from '../account/component/services/account.service';
+import { AppRoutingModule } from '../app-routing.module';
+import { APIEndpointURLs } from '../api-endpoint-urls';
 
 @Component({
   selector: 'app-root',
   templateUrl: './book.component.html',
-  styleUrls: ['./book.component.css']
+  styleUrls: ['./book.component.css'],
 })
 export class BookComponent implements OnInit {
   public books: Book[] | undefined;
   public editBook: Book | undefined;
   public deleteBook: Book | undefined;
+  public isLoggedIn: boolean | undefined;
+  public firstName: String | null;
+  public role: String | null;
 
-  constructor(private bookService: BookService) { }
+  constructor(
+    private bookService: BookService,
+    private appComponent: AppComponent,
+    private accountService: AccountService,
+    private router: Router
+  ) {
+    this.isLoggedIn = accountService.isLoggedIn();
+    this.firstName = accountService.getFirstName();
+    this.role = accountService.getRole();
+  }
+
+  logout() {
+    this.appComponent.logout();
+  }
+
+  login() {
+    this.router.navigate(['/login']);
+  }
+
+  goToUsersPage() {
+    this.router.navigate(['/users']);
+  }
 
   ngOnInit() {
     this.getBooks();
@@ -23,14 +52,13 @@ export class BookComponent implements OnInit {
   public getBooks(): void {
     this.bookService.getBooks().subscribe({
       next: (value: Book[]) => {
-         this.books = value;
+        this.books = value;
         console.log(this.books);
       },
       error: (error: any) => {
         alert(error.message);
-      }
+      },
     });
-    
   }
 
   public onAddBook(addForm: NgForm): void {
@@ -43,10 +71,9 @@ export class BookComponent implements OnInit {
       error: (error: HttpErrorResponse) => {
         alert(error.message);
         addForm.reset();
-      }
+      },
     });
   }
-  
 
   public onUpdateBook(Book: Book): void {
     this.bookService.updateBooks(Book).subscribe({
@@ -56,33 +83,34 @@ export class BookComponent implements OnInit {
       },
       error: (error: HttpErrorResponse) => {
         alert(error.message);
-      }
+      },
     });
   }
-  
 
   public onDeleteBook(BookId: number): void {
     this.bookService.deleteBooks(BookId).subscribe({
       next: () => {
-        console.log("Deletion successful");
         this.getBooks();
       },
       error: (error: HttpErrorResponse) => {
         alert(error.message);
-      }
+      },
     });
   }
-  
+
   public searchBooks(key: string): void {
-    console.log(key);
     const results: Book[] = [];
     for (const book of this.books!) {
       if (
-        book.title && book.title.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
-        book.subtitle && book.subtitle.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
-        book.publishingHouse && book.publishingHouse.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
-        book.author && book.author.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
-        book.category && book.category.toLowerCase().indexOf(key.toLowerCase()) !== -1
+        (book.title &&
+          book.title.toLowerCase().indexOf(key.toLowerCase()) !== -1) ||
+        (book.subtitle &&
+          book.subtitle.toLowerCase().indexOf(key.toLowerCase()) !== -1) ||
+        (book.publishingHouse &&
+          book.publishingHouse.toLowerCase().indexOf(key.toLowerCase()) !==
+            -1) ||
+        (book.author &&
+          book.author.toLowerCase().indexOf(key.toLowerCase()) !== -1)
       ) {
         results.push(book);
       }
@@ -91,12 +119,10 @@ export class BookComponent implements OnInit {
     if (!key) {
       this.getBooks();
     } else if (results.length === 0) {
-
     }
   }
-  
 
-  public onOpenModal( mode: string,book?: Book): void {
+  public onOpenModal(mode: string, book?: Book): void {
     const container = document.getElementById('main-container')!;
     const button = document.createElement('button');
     button.type = 'button';
@@ -116,19 +142,4 @@ export class BookComponent implements OnInit {
     container.appendChild(button);
     button.click();
   }
-
-  public getBooksByCategory(BookCategory: String): void{
-    this.bookService.getBooks().subscribe(
-      (response: Book[]) => {
-        this.books = response;
-      },
-      (error: any) =>{
-        alert(error.message);
-      }
-      );
-  }
-
-  
-
-
 }

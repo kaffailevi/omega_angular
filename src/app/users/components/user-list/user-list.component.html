@@ -1,18 +1,183 @@
-<table *ngIf="users$ | async as vm">
-  <thead>
-    <tr>
-      <th>FirstName</th>
-      <th>LastName</th>
-      <th>Email</th>
-      <th>Phone</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of vm">
-      <td>{{ user.firstName }}</td>
-      <td>{{ user.lastName }}</td>
-      <td>{{ user.email }}</td>
-      <td>{{ user.phone }}</td>
-    </tr>
-  </tbody>
-</table>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/css/boxicons.min.css"
+  integrity="sha512-pVCM5+SN2+qwj36KonHToF2p1oIvoU3bsqxphdOIWMYmgr4ZqD3t5DjKvvetKhXGc/ZG5REYTT6ltKfExEei/Q=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css"
+  integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc="
+  crossorigin="anonymous"
+/>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark" margin-bottom="30px">
+    <a class="navbar-brand" style="color: white" href="/book"
+      >User Management</a
+    >
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarColor02"
+      aria-controls="navbarColor02"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor02">
+      <ul class="navbar-nav mr-auto">
+        <div class="btn-group"></div>
+        <a href="/book" class="nav-link">Back to Books</a>
+      </ul>
+
+      <a id="welcome" *ngIf="isLoggedIn">Welcome, {{ firstName }}!</a>
+      <button
+        id="loginBtn"
+        *ngIf="isLoggedIn"
+        style="color: white"
+        (click)="logout()"
+      >
+        Logout
+      </button>
+      <button
+        id="logoutBtn"
+        *ngIf="!isLoggedIn"
+        style="color: white"
+        (click)="login()"
+      >
+        Login
+      </button>
+    </div>
+  </nav>
+
+  <div id="page">
+    <div class="container" id="main-container">
+      <div class="row align-items-center">
+        <div *ngFor="let user of users" class="col-xl-3 col-sm-6 d-flex">
+          <div class="card m-b-30">
+            <div class="card-body row">
+              <div class="d-flex align-items-center">
+                <div class="col-6">
+                  <img
+                    [src]="user.profileImage"
+                    alt=""
+                    class="avatar-md rounded-circle img-thumbnail"
+                  />
+                </div>
+                <div class="flex-1 ms-3">
+                  <h5 class="font-size-16 mb-1">
+                    <a class="text-dark"
+                      >{{ user.firstName }} {{ user.lastName }}</a
+                    >
+                  </h5>
+                  <span class="badge badge-soft-success mb-0">{{
+                    user.occupation
+                  }}</span>
+                </div>
+              </div>
+              <div class="mt-3 pt-1">
+                <p class="text-muted mb-0">
+                  <i class="mdi mdi-phone font-size-15 align-middle pe-2"></i>
+                  {{ user.phone }}
+                </p>
+                <p class="text-muted mb-0 mt-2">
+                  <i class="mdi mdi-email font-size-15 align-middle pe-2"></i>
+                  {{ user.email }}
+                </p>
+                <div class="text-muted mb-0 mt-2 d-flex align-items-center">
+                  <i class="bx bx-user font-size-15 align-middle pe-2"></i>
+                  <span style="margin-right: 30px">User</span>
+                  <div class="form-switch form-check ms-2 d-inline-block">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="role"
+                      *ngIf="!user.isManager"
+                      [(ngModel)]="user.isManager"
+                      (click)="updateRole(user)"
+                    />
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="role"
+                      *ngIf="user.isManager"
+                      [(ngModel)]="user.isManager"
+                      checked
+                      (click)="updateRole(user)"
+                    />
+                  </div>
+                  <label for="role" class="form-check-label ms-2 mb-0"
+                    >Admin</label
+                  >
+                </div>
+                <div class="pt-4 d-flex justify-content-end">
+                  <button
+                    type="button"
+                    class="btn btn-outline-info btn-sm w-40 ml-550"
+                    (click)="onOpenModal('delete', user)"
+                    data-bs-placement="top"
+                    data-bs-original-title="Delete"
+                  >
+                    <i class="bx bx-trash me-1"></i> Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<!-- Delete Modal -->
+<div
+  class="modal fade"
+  id="deleteUserModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="deleteModelLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModelLabel">Delete User</h5>
+        <button
+          type="button"
+          class="close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Are you sure you want to delete {{ deleteUser?.firstName }}
+          {{ deleteUser?.lastName }}?
+        </p>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            data-bs-dismiss="modal"
+          >
+            No
+          </button>
+          <button
+            (click)="onDeleteUser(deleteUser!.id)"
+            class="btn btn-outline-danger"
+            data-bs-dismiss="modal"
+          >
+            Yes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

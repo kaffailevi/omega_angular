@@ -1,5 +1,16 @@
-body{margin-top:20px;}              
-.modal-footer {   border-top: 0px; }
-.card{
+body {  
+  padding-top: 20px;
+  background-color: #99995020;
+  width: 100vw;
+  min-height: 100vh
+}
+.modal-footer {
+  border-top: 0px;
+}
+.card {
   margin-bottom: 0;
+}
+
+.modal-dialog{
+  width: 100%;
 }

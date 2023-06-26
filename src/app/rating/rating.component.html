@@ -1,0 +1,204 @@
+<nav class="navbar navbar-expand-lg navbar-dark" >
+  <a class="navbar-brand" style="color: white" href="/book"
+  >Library Management</a
+  >
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#navbarColor02"
+    aria-controls="navbarColor02"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarColor02">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+
+      </li>
+    </ul>
+    <a id="welcome" *ngIf="isLoggedIn">Welcome, {{ firstName }}!</a>
+    <button
+      id="loginBtn"
+      *ngIf="isLoggedIn"
+      style="color: white"
+      (click)="logout()"
+    >
+      Logout
+    </button>
+    <button
+      id="logoutBtn"
+      *ngIf="!isLoggedIn"
+      style="color: white"
+      (click)="login()"
+    >
+      Login
+    </button>
+  </div>
+</nav>
+<main id="main-container">
+  <div class="card">
+    <div class="container">
+      <div class="image">
+        <img [src]="book?.coverImage" alt="">
+      </div>
+      <div class="details">
+        <h2>{{book?.title}}</h2>
+        <h3>{{book?.subtitle}}</h3>
+        <p>Author: <b>{{book?.author}}</b></p>
+        <p>Publishing House: <b>{{book?.publishingHouse}}</b></p>
+        <div *ngIf="isLoggedIn">
+          <button id="add-new-button" (click)="onOpenModal('add',null)">
+            <span>
+              Add new
+            </span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="all-reviews">
+    <div class="reviews">
+      <div class="review card" *ngFor="let rating of ratings">
+        <p></p>
+        <div class="title">
+          <h3 class="title-item">
+            {{rating.review_title}}
+          </h3>
+          <div class="title-item">
+            <img src="assets/stars/{{rating.rating}}.png"/>
+          </div>
+
+        </div>
+
+        <p>{{rating.review}}</p>
+        <p>{{rating.date}}</p>
+        <a
+          *ngIf="role === 'ADMIN'"
+          (click)="onOpenModal('delete', rating)"
+          class="btn btn-outline-danger"
+          data-bs-placement="top"
+          data-bs-original-title="Delete"
+        ><i class="fa fa-times"></i
+        ></a>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal" id="addModal" >
+    <div class="modal-content">
+
+      <form #addForm="ngForm" (ngSubmit)="onAddRating(addForm)">
+        <div class="form-group">
+          <label for="review_title">Title</label>
+          <input
+            type="text"
+            ngModel
+            name="review_title"
+            class="form-control"
+            id="review_title"
+            placeholder="Title"
+            required
+
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="review">Review</label>
+          <textarea
+            type="text"
+            ngModel
+            name="review"
+            class="form-control"
+            id="review"
+            placeholder="I really enjoyed this book because..."
+            required
+            rows="3"
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <label for="rating">Rating</label>
+          <select
+            id="rating" name="rating"
+            ngModel
+            class="form-control"
+          >
+            <option value="{{RatingEnum.RATING1}}" >
+            1 star
+            </option>
+            <option value="{{RatingEnum.RATING2}}">
+              2 stars
+            </option>
+            <option value="{{RatingEnum.RATING3}}">
+              3 stars
+            </option>
+            <option value="{{RatingEnum.RATING4}}">
+              4 stars
+            </option>
+            <option value="{{RatingEnum.RATING5}}">
+              5 stars
+            </option>
+          </select>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            id="add-Book-form"
+            class="btn btn-outline-secondary"
+            data-bs-dismiss="modal"
+            data-target="#addModal"
+            data-toggle="modal"
+            (click)="onCloseModal('add')"
+          >
+            Close
+          </button>
+          <button
+            [disabled]="addForm.invalid"
+            type="submit"
+            class="btn btn-outline-success"
+        >
+            Save changes
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+  <div class="modal" id="deleteModal">
+    <div class="modal-content">
+  <div class="modal-content">
+    <h4>Are you sure you want to delete this rating?</h4>
+  </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          id="delete-rating-form"
+          class="btn btn-outline-danger"
+          data-bs-dismiss="modal"
+          (click)="onDeleteRating()"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          (click)="onCloseModal('delete')"
+        >
+          Cancel
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</main>
+
+
+

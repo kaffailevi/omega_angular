@@ -12,8 +12,10 @@ import { StuffListComponent } from './users/components/stuff-list/stuff-list.com
 import { UserListComponent } from './users/components/user-list/user-list.component';
 import { BookComponent } from './book/book.component';
 import { BookService } from './book/book.service';
-import { RatingsComponent } from './ratings/ratings/ratings.component';
-import { BorrowsComponent } from './borrows/borrows.component';
+import { UserService } from './users/services/user.service';
+import { RouterModule } from '@angular/router';
+import { AccountService } from './account/component/services/account.service';
+import {RatingComponent} from "./rating/rating.component";
 
 @NgModule({
   declarations: [
@@ -24,8 +26,7 @@ import { BorrowsComponent } from './borrows/borrows.component';
     RegisterComponent,
     StuffListComponent,
     BookComponent,
-    RatingsComponent,
-    BorrowsComponent,
+    RatingComponent
   ],
   imports: [
     BrowserModule,
@@ -33,8 +34,9 @@ import { BorrowsComponent } from './borrows/borrows.component';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    RouterModule
   ],
-  providers: [BookService],
+  providers: [BookService, UserService, AccountService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

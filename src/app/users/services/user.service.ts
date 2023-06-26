@@ -11,6 +11,9 @@ import {AccountService} from '../../account/component/services/account.service';
 })
 export class UserService {
 
+  private apiServerUrl = APIEndpointURLs.userUrl;
+
+
   constructor(private http: HttpClient,
               private auth: AccountService) {}
 
@@ -24,4 +27,15 @@ export class UserService {
     });
     return this.http.get<Stuff[]>(APIEndpointURLs.myStuff, {headers});
   }
+
+  public updateUser(user:User): Observable<User[]>{
+    return this.http.put<User[]>(`${this.apiServerUrl}/update`, user);
+  }
+
+  public deleteUser(userId: number): Observable<void>{
+    return this.http.delete<void>(`${this.apiServerUrl}/id/${userId}/delete/`);
+  }
+
+  
+  
 }

@@ -8,15 +8,17 @@ import { RegisterComponent } from './account/component/register/register.compone
 import { StuffListComponent } from './users/components/stuff-list/stuff-list.component';
 import { UserListComponent } from './users/components/user-list/user-list.component';
 import { BookComponent } from './book/book.component';
+import {RatingComponent} from "./rating/rating.component";
 
 const routes: Routes = [
   { path: 'users', component: UserListComponent, canActivate: [AuthGuard] },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'stuff', component: StuffListComponent, canActivate: [AuthGuard] },
-  { path: 'book', component: BookComponent }
+  { path: 'book', component: BookComponent },
+  { path: 'reviews/:id', component: RatingComponent}
 ];
 
 @NgModule({

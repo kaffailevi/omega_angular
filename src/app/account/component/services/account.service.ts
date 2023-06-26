@@ -11,7 +11,6 @@ import { map } from 'rxjs/operators';
 @Injectable({ providedIn: 'root' })
 export class AccountService {
   currentUser: Subject<User> = new Subject<User>();
-
   private readonly TOKEN = 'token';
 
   constructor(private http: HttpClient, private router: Router) {
@@ -32,7 +31,6 @@ export class AccountService {
         const result = response[this.TOKEN];
         if (result) {
           localStorage.setItem(this.TOKEN, result);
-
           // const jwt = new JwtHelperService();
           // const tempUser: User = jwt.decodeToken(localStorage.getItem(this.TOKEN));
           // console.log('tempUser: ', tempUser);
@@ -54,7 +52,7 @@ export class AccountService {
   logout() {
     localStorage.removeItem(this.TOKEN);
     // this.currentUser.next(null);
-    this.router.navigate(['home']);
+    this.router.navigate(['/home']);
   }
 
   isLoggedIn(): boolean {
@@ -70,4 +68,39 @@ export class AccountService {
   getToken(): string {
     return localStorage.getItem(this.TOKEN) as string;
   }
+
+  getRole(): string | null {
+    const token = localStorage.getItem(this.TOKEN);
+    if (token) {
+      const jwt = new JwtHelperService();
+      const decodedToken = jwt.decodeToken(token);
+      return decodedToken.role;
+
+    }
+    return null;
+  }
+
+  getFirstName(): string | null{
+    const token = localStorage.getItem(this.TOKEN);
+    if (token) {
+      const jwt = new JwtHelperService();
+      const decodedToken = jwt.decodeToken(token);
+      return decodedToken.name;
+
+    }
+    return null;
+  }
+
+  getId(): string | null{
+    const token = localStorage.getItem(this.TOKEN);
+    if (token) {
+      const jwt = new JwtHelperService();
+      const decodedToken = jwt.decodeToken(token);
+      return decodedToken.jti;
+
+    }
+    return null;
+  }
+
+
 }

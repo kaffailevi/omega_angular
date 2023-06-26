@@ -1,5 +1,5 @@
 export interface User {
-  id: string;
+  id: number;
   username: string;
   password: string;
   firstName: string;
@@ -8,4 +8,6 @@ export interface User {
   email: string;
   phone: string;
   occupation: string;
+  isManager: boolean;
+  profileImage: string;
 }
