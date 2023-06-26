@@ -6,4 +6,5 @@ export interface Book{
     publishingHouse: string;
     coverImage: string;
     isAvailable: string;
+    category: string;
 }
