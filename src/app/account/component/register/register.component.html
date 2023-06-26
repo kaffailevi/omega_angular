@@ -51,12 +51,12 @@
                     class="form-control"
                     [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
                   />
-                  <div
-                    *ngIf="submitted && f.email.errors"
-                    class="invalid-feedback"
-                  >
+                  <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                     <div *ngIf="f.email.errors['required']">
                       Email is required
+                    </div>
+                    <div *ngIf="f.email.errors['pattern']">
+                      Invalid email format. Please use the following pattern: example@gmail.com
                     </div>
                   </div>
                 </div>

@@ -3,6 +3,8 @@ import {AbstractControl, FormBuilder, Validators} from '@angular/forms';
 
 import { AccountService } from '../services/account.service';
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
+
 
 @Component({
   selector: 'app-register',
@@ -13,7 +15,10 @@ export class RegisterComponent {
   form = this.formBuilder.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
+    email: new FormControl('', [
+      Validators.required,
+      Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')
+    ]),
     phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
     username: ['', Validators.required],
     password: ['', [Validators.required, Validators.minLength(6)]],
@@ -56,13 +61,4 @@ export class RegisterComponent {
       },
     });
   }
-
-  /*validatePhoneNumber(control: AbstractControl) {
-    const phoneNumber = control.value;
-    if (phoneNumber && phoneNumber.length !== 10) {
-      return { phoneNumberInvalid: true };
-    }
-    return null;
-  }*/
-
 }
