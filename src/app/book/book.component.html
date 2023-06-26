@@ -24,9 +24,9 @@
         >
       </li>
       <li class="nav-item inactive">
-        <a 
-        *ngIf="role === 'ADMIN'" 
-        class="nav-link" 
+        <a
+        *ngIf="role === 'ADMIN'"
+        class="nav-link"
         (click)="goToUsersPage()"
         >User Managment<span class="sr-only">(current)</span>
         </a>
@@ -110,12 +110,20 @@
               ></a>
               <a
                 *ngIf="role === 'USER'"
-                href="/borrow"
+                (click) = "onOpenModal('view',Book)"
                 class="btn btn-outline-warning"
                 data-bs-placement="top"
                 data-bs-original-title="Delete"
                 ><i class="fa fa-book"></i
               ></a>
+              <a
+              *ngIf="role === 'ADMIN'"
+              href="/borrow/{{Book.id}}"
+              class="btn btn-outline-warning"
+              data-bs-placement="top"
+              data-bs-original-title="Delete"
+            ><i class="fa fa-book"></i
+            ></a>
             </div>
           </div>
         </div>

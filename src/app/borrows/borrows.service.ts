@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Borrows } from './borrows';
 
 import { APIEndpointURLs } from '../api-endpoint-urls';
+import {Book} from "../book/book";
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,9 @@ export class BorrowsService {
   public getBorrowsByBookId(bookId: number): Observable<Borrows[]> {
     return this.http.get<Borrows[]>(`${this.apiServerUrl}/all_by_bookid/${bookId}`);
   }
-  
+  public getBook(bookId: number | undefined): Observable<Book> {
+    return this.http.get<Book>(APIEndpointURLs.bookById + bookId);
+  }
   public getBorrowsLoanBetween(startDate: string, endDate: string): Observable<Borrows[]> {
     return this.http.get<Borrows[]>(`${this.apiServerUrl}/loan_between/${startDate}/${endDate}`);
   }

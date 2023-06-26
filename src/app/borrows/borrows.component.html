@@ -1,1 +1,73 @@
-<p>borrows works!</p>
+<nav class="navbar navbar-expand-lg navbar-dark" >
+  <a class="navbar-brand" style="color: white" href="/book"
+  >Library Management</a
+  >
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#navbarColor02"
+    aria-controls="navbarColor02"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarColor02">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a href="/book" class="nav-link">Back to books</a>
+      </li>
+    </ul>
+    <a id="welcome" *ngIf="isLoggedIn">Welcome, {{ firstName }}!</a>
+    <button
+      id="loginBtn"
+      *ngIf="isLoggedIn"
+      style="color: white"
+      (click)="logout()"
+    >
+      Logout
+    </button>
+    <button
+      id="logoutBtn"
+      *ngIf="!isLoggedIn"
+      style="color: white"
+      (click)="login()"
+    >
+      Login
+    </button>
+  </div>
+</nav>
+
+<main *ngIf="role==='ADMIN'">
+
+  <div class="card">
+    <div class="container">
+      <div class="image">
+        <img [src]="book?.coverImage" alt="">
+      </div>
+      <div class="details">
+        <h2>{{book?.title}}</h2>
+        <h3>{{book?.subtitle}}</h3>
+        <p>Author: <b>{{book?.author}}</b></p>
+        <p>Publishing House: <b>{{book?.publishingHouse}}</b></p>
+        <div *ngIf="isLoggedIn">
+          <!--        <button id="add-new-button" (click)="onOpenModal('add',null)">-->
+          <!--            <span>-->
+          <!--              Add new-->
+          <!--            </span>-->
+          <!--        </button>-->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+</main>
+
+
+<main *ngIf="!(role==='ADMIN')">
+  YOU HAVE TO BE MANAGER
+</main>
+
