@@ -110,20 +110,12 @@
               ></a>
               <a
                 *ngIf="role === 'USER'"
-                (click) = "onOpenModal('view',Book)"
+                href="/borrow"
                 class="btn btn-outline-warning"
                 data-bs-placement="top"
                 data-bs-original-title="Delete"
                 ><i class="fa fa-book"></i
               ></a>
-              <a
-              *ngIf="role === 'ADMIN'"
-              href="/borrow/{{Book.id}}"
-              class="btn btn-outline-warning"
-              data-bs-placement="top"
-              data-bs-original-title="Delete"
-            ><i class="fa fa-book"></i
-            ></a>
             </div>
           </div>
         </div>
@@ -412,28 +404,4 @@
       <p>No books were found.</p>
     </div>
   </div>
-</div>
-
-<div class="modal" id="borrowModal">
-  <div id="borrow-modal-content">
-    <div class="modal-content">
-      <h4>
-
-<!--        TODO: KITOLTENI ADATTAL-->
-
-      </h4>
-    </div>
-    <div class="modal-footer">
-
-      <button
-        type="button"
-        class="btn btn-outline-secondary"
-        (click)="onCloseModal()"
-      >
-        Cancel
-      </button>
-    </div>
-
-  </div>
-
 </div>

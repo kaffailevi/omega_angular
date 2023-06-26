@@ -21,6 +21,29 @@ export class BookComponent implements OnInit {
   public isLoggedIn: boolean | undefined;
   public firstName: String | null;
   public role: String | null;
+  showOtherInput: boolean = false;
+  otherOption: string = '';
+  categories: string[] | undefined = [
+    'Fiction',
+    'Non-fiction',
+    'Mystery',
+    'Science Fiction (Sci-Fi)',
+    'Fantasy',
+    'Romance',
+    'Historical Fiction',
+    'Biography',
+    'Autobiography',
+    'Business',
+    'Science',
+    'History',
+    'Thriller',
+    'Horror',
+    "Children's Books",
+    'Young Adult (YA)',
+    'Poetry',
+    'Travel',
+    'Philosophy',
+  ];
 
   constructor(
     private bookService: BookService,
@@ -150,5 +173,15 @@ export class BookComponent implements OnInit {
   onCloseModal() {
     let modal = document.getElementById('borrowModal');
     modal?.style.setProperty("display","none");
+  }
+
+  onOptionChange(event: any) {
+    const selectedOption = event.target.value;
+    if (selectedOption === 'Other') {
+      this.showOtherInput = true;
+    } else {
+      this.showOtherInput = false;
+      this.otherOption = '';
+    }
   }
 }
