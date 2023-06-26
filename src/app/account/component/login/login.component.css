@@ -1,4 +1,4 @@
-body {  
+body {
   padding-top: 20px;
   background-color: #99995020;
   width: 100vw;
@@ -12,5 +12,5 @@ body {
 }
 
 .modal-dialog{
-  width: 100%;
+  width: 30%;
 }

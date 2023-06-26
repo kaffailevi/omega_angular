@@ -16,6 +16,9 @@ import { UserService } from './users/services/user.service';
 import { RouterModule } from '@angular/router';
 import { AccountService } from './account/component/services/account.service';
 import {RatingComponent} from "./rating/rating.component";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -34,7 +37,11 @@ import {RatingComponent} from "./rating/rating.component";
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    NgbModule,
+    MatSnackBarModule,
+    BrowserModule,
+    BrowserAnimationsModule
   ],
   providers: [BookService, UserService, AccountService],
   bootstrap: [AppComponent],
