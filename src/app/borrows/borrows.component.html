@@ -63,6 +63,31 @@
             <span> Add new </span>
           </button>
         </div>
+        <div>
+          Available?
+          <div class="form-switch form-check ms-2 d-inline-block">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="available"
+              *ngIf="!(book?.available === true)"
+
+              (click)="updateBook(book)"
+            />
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="available"
+
+              *ngIf="(book?.available===true)"
+              checked
+              (click)="updateBook(book)"
+            />
+          </div>
+
+
+
+        </div>
       </div>
     </div>
   </div>

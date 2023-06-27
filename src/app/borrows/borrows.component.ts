@@ -11,6 +11,7 @@ import { Book } from '../book/book';
 import { UserService } from '../users/services/user.service';
 import { BorrowsTo } from './borrows.to';
 import { User } from '../users/models/user.model';
+import {BookService} from "../book/book.service";
 
 @Component({
   selector: 'app-borrows',
@@ -36,7 +37,8 @@ export class BorrowsComponent {
     private route: ActivatedRoute,
     private appComponent: AppComponent,
     private accountService: AccountService,
-    private userService: UserService
+    private userService: UserService,
+    private bookService: BookService
   ) {
     this.isLoggedIn = accountService.isLoggedIn();
     this.firstName = accountService.getFirstName();
@@ -44,14 +46,16 @@ export class BorrowsComponent {
     activeRoute.params.subscribe((params) => {
       this.bookId = params['id'];
     });
+
     this.borrowsService.getBook(this.bookId).subscribe({
       next: (value) => {
-        this.book = value;
+       this.book =value;
       },
       error: (err: HttpErrorResponse) => {
         alert(err.message);
       },
     });
+
     this.userService.getAllUsers().subscribe((value) => {this.users = value;this.borrows=[];this.getBorrows();});
 
 
@@ -145,5 +149,23 @@ export class BorrowsComponent {
       },
     });
     this.getBorrows();
+  }
+
+  updateBook(book: Book | undefined) {
+    if(book!=undefined){
+      book.available = !book.available;
+      this.book = book;
+      this.bookService.updateBooks(book).subscribe(
+        {
+          next:
+            value => {
+              console.log('update successful');
+            },
+          error: err => {
+            alert(err.message());
+          }
+        }
+      );
+    }
   }
 }
