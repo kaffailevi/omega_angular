@@ -1,0 +1,69 @@
+<nav class="navbar navbar-expand-lg navbar-dark" margin-bottom="30px">
+  <a class="navbar-brand" style="color: white" href="/book"
+  >Library Management</a
+  >
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#navbarColor02"
+    aria-controls="navbarColor02"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarColor02">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a
+          *ngIf="role === 'ADMIN'"
+          class="nav-link"
+          (click)="onOpenModal('add')"
+        >Add Book <span class="sr-only">(current)</span></a
+        >
+      </li>
+      <li class="nav-item inactive">
+        <a
+          *ngIf="role === 'ADMIN'"
+          class="nav-link"
+          (click)="goToUsersPage()"
+        >User Managment<span class="sr-only">(current)</span>
+        </a>
+      </li>
+    </ul>
+    <a id="welcome" *ngIf="isLoggedIn">Welcome, {{ firstName }}!</a>
+    <button
+      id="loginBtn"
+      *ngIf="isLoggedIn"
+      style="color: white"
+      (click)="logout()"
+    >
+      Logout
+    </button>
+    <button
+      id="logoutBtn"
+      *ngIf="!isLoggedIn"
+      style="color: white"
+      (click)="login()"
+    >
+      Login
+    </button>
+  </div>
+</nav>
+
+<main id="main-container">
+  <div class="card">
+    <div class="container">
+      <div class="image">
+        <img [src]="book?.coverImage" alt="">
+      </div>
+      <div class="details">
+        <h2>{{book?.title}}</h2>
+        <h3>{{book?.subtitle}}</h3>
+        <p>Author: <b>{{book?.author}}</b></p>
+        <p>Publishing House: <b>{{book?.publishingHouse}}</b></p>
+      </div>
+    </div>
+  </div>
+</main>

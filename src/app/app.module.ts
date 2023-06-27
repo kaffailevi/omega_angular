@@ -16,6 +16,7 @@ import { UserService } from './users/services/user.service';
 import { RouterModule } from '@angular/router';
 import { AccountService } from './account/component/services/account.service';
 import {RatingComponent} from "./rating/rating.component";
+import {BorrowComponent} from "./borrow/borrow.component";
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import {RatingComponent} from "./rating/rating.component";
     RegisterComponent,
     StuffListComponent,
     BookComponent,
-    RatingComponent
+    RatingComponent,
+    BorrowComponent
   ],
   imports: [
     BrowserModule,
