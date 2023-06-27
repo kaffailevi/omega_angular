@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 
 import { AccountService } from '../services/account.service';
 import { Component } from '@angular/core';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-login',
@@ -16,12 +17,12 @@ export class LoginComponent {
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
   });
-
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private snackBar: MatSnackBar
   ) {}
 
   // convenience getter for easy access to form fields
@@ -34,13 +35,29 @@ export class LoginComponent {
     if (this.form.invalid) {
       return;
     }
+      this.accountService
+        .login(this.f.email.value as string, this.f.password.value as string)
+        .subscribe((result) => {
+          console.log("itt vok");
+          if (result) {
+            this.router.navigate(['/book']);
+            this.showSnackbar("Login successful");
+          }
 
-    this.accountService
-      .login(this.f.email.value as string, this.f.password.value as string)
-      .subscribe((result) => {
-        if (result) {
-              this.router.navigate(['/book']);
-        }
-      });
+        },
+          (error) => {
+            //console.log(error.status);
+            this.showSnackbar("Invalid email or password");
+          }
+        );
   }
+
+  showSnackbar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    });
+  }
+
 }

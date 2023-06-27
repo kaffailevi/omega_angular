@@ -51,12 +51,12 @@
                     class="form-control"
                     [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
                   />
-                  <div
-                    *ngIf="submitted && f.email.errors"
-                    class="invalid-feedback"
-                  >
+                  <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                     <div *ngIf="f.email.errors['required']">
                       Email is required
+                    </div>
+                    <div *ngIf="f.email.errors['pattern']">
+                      Invalid email format. Please use the following pattern: example@gmail.com
                     </div>
                   </div>
                 </div>
@@ -68,12 +68,10 @@
                     class="form-control"
                     [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"
                   />
-                  <div
-                    *ngIf="submitted && f.phone.errors"
-                    class="invalid-feedback"
-                  >
-                    <div *ngIf="f.phone.errors['required']">
-                      Phone is required
+                  <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                    <div *ngIf="f.phone.errors['required']">Phone is required</div>
+                    <div *ngIf="f.phone.errors['minlength'] || f.phone.errors['maxlength']">
+                      Phone number must be exactly 10 characters long
                     </div>
                   </div>
                 </div>
