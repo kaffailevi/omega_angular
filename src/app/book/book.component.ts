@@ -193,6 +193,7 @@ export class BookComponent implements OnInit {
       let modal = document.getElementById('borrowModal');
       modal?.style.setProperty("display", "none");
     }
+    this.returnDate = undefined;
   }
 
   onOptionChange(event: any) {

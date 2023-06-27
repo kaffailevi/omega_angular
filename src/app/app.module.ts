@@ -15,11 +15,11 @@ import { BookService } from './book/book.service';
 import { UserService } from './users/services/user.service';
 import { RouterModule } from '@angular/router';
 import { AccountService } from './account/component/services/account.service';
-import {RatingComponent} from "./rating/rating.component";
-import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
+import { RatingComponent } from "./rating/rating.component";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BorrowsComponent} from "./borrows/borrows.component";
-
 
 @NgModule({
   declarations: [
