@@ -69,17 +69,20 @@
     <div class="row">
       <div *ngFor="let Book of books" class="col-md-6 col-xl-3 d-flex">
         <div class="card m-b-30">
+
           <div class="card-body row">
             <div class="col-6">
               <a href="/reviews/{{ Book?.id }}"
-                ><img [src]="Book?.coverImage" alt="" class="img-fluid mh-100"
+              ><img [src]="Book?.coverImage" alt="" class="img-fluid mh-100"
               /></a>
             </div>
             <div class="col-6 card-title align-self-center mb-0">
-              <h5>{{ Book?.title }}</h5>
+              <h5> {{ Book?.title }}</h5>
               <p class="m-0">{{ Book?.subtitle }}</p>
             </div>
           </div>
+
+
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <i class="fa float-right"></i>Author : {{ Book?.author }}
@@ -87,6 +90,10 @@
             <li class="list-group-item">
               <i class="fa float-right"></i>Published by:
               {{ Book?.publishingHouse }}
+            </li>
+            <li class="list-group-item">
+              <i class="fa float-right"></i>Category:
+              {{ Book?.category }}
             </li>
           </ul>
           <div class="card-body d-flex align-items-end">
@@ -213,6 +220,35 @@
                   required
                 />
               </div>
+              <div class="form-group" id="other" *ngIf="!showOtherInput">
+                <label for="category">Category</label>
+                <select
+                  name="category"
+                  class="form-select"
+                  id="category"
+                  ngModel
+                  name="category"
+                  (change)="onOptionChange($event)"
+                >
+                  <option value="" selected>Select a category</option>
+                  <option *ngFor="let category of categories" value="category">
+                    {{ category }}
+                  </option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="form-group" *ngIf="showOtherInput">
+                <label for="otherInput">Type a category</label>
+                <input
+                  id="otherInput"
+                  type="text"
+                  ngModel
+                  name="category"
+                  class="form-control"
+                  required
+                />
+              </div>
+
               <div class="modal-footer">
                 <button
                   type="button"
@@ -237,7 +273,6 @@
         </div>
       </div>
     </div>
-
     <!-- Edit Modal -->
     <div
       class="modal fade"
@@ -251,7 +286,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="updateBookModalLabel">
-              Edit Book {{ editBook?.title }}
+              Edit {{ editBook?.title }}
             </h5>
             <button
               type="button"
@@ -284,14 +319,6 @@
                 id="id"
                 placeholder="Email"
               />
-              <!-- <input
-                type="hidden"
-                [ngModel]=" editBook?.author "
-                name="userCode"
-                class="form-control"
-                id="userCode"
-                placeholder="Email"
-              /> -->
               <div class="form-group">
                 <label for="author">Author</label>
                 <input
@@ -336,6 +363,40 @@
                   placeholder="Image URL"
                 />
               </div>
+              <div class="form-group" id="other" *ngIf="!showOtherInput">
+                <label for="category">Category</label>
+                <select
+                  name="category"
+                  class="form-select"
+                  id="category"
+                  ngModel
+                  name="category"
+                  (change)="onOptionChange($event)"
+                >
+                  <option
+                    value="{{ editBook?.category }}"
+                    [ngModel]="editBook?.category"
+                    selected
+                  >
+                    {{ editBook?.category }}
+                  </option>
+                  <option *ngFor="let category of categories" value="category">
+                    {{ category }}
+                  </option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="form-group" *ngIf="showOtherInput">
+                <label for="otherInput">Type a category</label>
+                <input
+                  id="otherInput"
+                  type="text"
+                  ngModel
+                  name="category"
+                  class="form-control"
+                  required
+                />
+              </div>
               <div class="modal-footer">
                 <button
                   type="button"
@@ -358,7 +419,6 @@
         </div>
       </div>
     </div>
-
     <!-- Delete Modal -->
     <div
       class="modal fade"
