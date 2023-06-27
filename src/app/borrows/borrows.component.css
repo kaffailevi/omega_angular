@@ -321,3 +321,14 @@ thead {
   top: 0;
   z-index: 1;
 }
+.check{
+  flex: 1;
+}
+.check-container{
+  display: inline-flex;
+  -ms-flex-order: revert;
+  padding: 3px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
