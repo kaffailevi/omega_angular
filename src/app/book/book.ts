@@ -5,5 +5,6 @@ export interface Book{
     author: string;
     publishingHouse: string;
     coverImage: string;
-    isAvailable: string;
+    category: string;
+    available: boolean;
 }

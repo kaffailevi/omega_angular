@@ -32,4 +32,7 @@ export class BookService {
     return this.http.delete<void>(`${this.apiServerUrl}/delete/${BookId}`);
   }
   
+  public getCategory(BookCategory: String): Observable<Book[]>{
+    return this.http.get<Book[]>(`${this.apiServerUrl}/category/${BookCategory}`);
+  }
 }

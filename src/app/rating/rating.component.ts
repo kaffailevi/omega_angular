@@ -11,6 +11,8 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {DatePipe} from "@angular/common";
 import {RatingUser} from "./rating.user";
 import {RatingEnum} from "./rating.enum";
+import {UserService} from "../users/services/user.service";
+import {User} from "../users/models/user.model";
 
 
 @Component({
@@ -20,17 +22,18 @@ import {RatingEnum} from "./rating.enum";
 })
 export class RatingComponent {
 
-  public ratings: RatingUser[] | undefined;
+  public ratings: RatingUser[];
   public bookId: number | undefined;
   public book: Book | undefined;
   public isLoggedIn: boolean | undefined;
   public role: string | null;
   public firstName: string | null;
   private deleteRating: RatingUser | null;
-  protected static readonly ratingEnum : RatingEnum;
+  protected static readonly ratingEnum: RatingEnum;
 
   constructor(private activeRoute: ActivatedRoute,
               private ratingService: RatingService,
+              private userService: UserService,
               private route: ActivatedRoute,
               private appComponent: AppComponent,
               private accountService: AccountService,
@@ -49,33 +52,35 @@ export class RatingComponent {
     this.firstName = accountService.getFirstName();
     this.role = accountService.getRole();
     this.deleteRating = null;
+    this.ratings = [];
   }
 
 
   public getRatings(): void {
-    this.ratingService.getRatingsByBookId(this.bookId).subscribe(
-      {
-        next: (value: Rating[]) => {
-          this.ratings = value.map<RatingUser>((rating, index, array) => {
-            let username: string = "";
-
-            let tmp: RatingUser = {
-              id: rating.id,
-              user_name: username,
-              rating: rating.rating,
-              review_title: rating.review_title,
-              review: rating.review,
-              date: rating.date
-            };
-            return tmp;
-          });
-        },
-        error: (error: any) => {
-          alert(error.message);
-        },
+    this.userService.getAllUsers().subscribe(
+      users => {
+        this.ratingService.getRatingsByBookId(this.bookId).subscribe(
+          ratings => {
+            this.ratings = ratings.map(
+              (rating, index, array) => {
+                let user : User | undefined =  users.find(user => user.id === rating.user_id);
+                return {
+                  id: rating.id,
+                  user_id:rating.user_id,
+                  user_name : ( user?.firstName + ' ' + user?.lastName),
+                  rating:rating.rating,
+                  review_title : rating.review_title,
+                  review: rating.review,
+                  date: rating.date
+                }
+              }
+            )
+          }
+        );
       }
     );
-    console.log(this.ratings);
+
+
   }
 
   ngOnInit() {
