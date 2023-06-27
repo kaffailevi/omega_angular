@@ -60,6 +60,13 @@
 
     </div>
   </div>
+  <!-- Notification for no ratings -->
+  <div  *ngIf="ratings?.length === 0" class="col-lg-12 col-md-12 col-xl-12">
+    <div class="alert alert-warning" role="alert">
+      <h4 class="alert-heading">No reviews yet!</h4>
+      <p>Be the first to tell about this book!</p>
+    </div>
+  </div>
   <div class="all-reviews">
     <div class="reviews">
       <div class="review card" *ngFor="let rating of ratings">
