@@ -73,8 +73,8 @@
         <div class="card-body">
           <div class="card-title">This book was borrowed by:</div>
           <div class="e-table">
-            <div class="table-responsive table-lg mt-3">
-              <table class="table">
+            <div class="table-responsive table-lg mt-3 borrows">
+              <table class="table tableFixHead" >
                 <thead>
                   <tr>
                     <th class="header"></th>
@@ -83,7 +83,7 @@
                     <th class="sortable header">Return Date</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody  >
                   <tr *ngFor="let borrow of borrows">
                     <td class="align-middle text-center">
                       <div
@@ -141,26 +141,18 @@
         <form #addForm="ngForm" (ngSubmit)="onAddBorrow(addForm)">
           <div class="form-group">
             <label for="userId">User ID:</label>
-            <input
-              type="text"
+            <select
               ngModel
               name="userId"
               class="form-control"
               id="userId"
-              placeholder="User ID"
+              placeholder="User"
               required
-            />
-          </div>
-          <div class="form-group">
-            <input
-            hidden
-              type="text"
-              ngModel
-              name="bookId"
-              class="form-control"
-              id="bookId"
-              value="{{bookId}}"
-            />
+            >
+              <option *ngFor="let user of users" value="{{user.id}}">
+                {{ user.firstName}} {{user.lastName}} ({{user.email}})
+              </option>
+            </select>
           </div>
           <div class="form-group">
             <label for="loanDate">Loan Date</label>
@@ -184,7 +176,7 @@
               required
             />
           </div>
-          
+
           <div class="modal-footer">
             <button
               type="button"

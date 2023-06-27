@@ -25,6 +25,8 @@ export class BorrowsComponent {
   public role: string | null;
   public bookId: number | undefined;
   public book: Book | undefined;
+  public users: User[] | undefined;
+
 
   constructor(
     private borrowsService: BorrowsService,
@@ -50,17 +52,15 @@ export class BorrowsComponent {
         alert(err.message);
       },
     });
-    this.borrows = [];
+    this.userService.getAllUsers().subscribe((value) => {this.users = value;this.borrows=[];this.getBorrows();});
+
+
   }
 
-  ngOnInit() {
-    this.getBorrows();
-  }
+
 
   public getBorrows(): void {
-    let users: User[];
-    this.userService.getAllUsers().subscribe((value) => (users = value));
-
+    this.borrows = [];
     this.borrowsService.getBorrows().subscribe({
       next: (value: Borrows[]) => {
         for (let item of value) {
@@ -69,12 +69,10 @@ export class BorrowsComponent {
           let loanDate = item.loanDate;
           let returnDate = item.returnDate;
           let id = item.id;
-          let user = users.find((it) => {
+          let user = this.users?.find((it) => {
             return it.id === item.userId;
           });
-          //TODO: MEGOLDANI HOGY MUKODJON
 
-          this.userService.getUserById(userId).subscribe((value1) => {
             const convertedItem: BorrowsTo = {
               id: id,
               bookId: bookId,
@@ -87,8 +85,6 @@ export class BorrowsComponent {
               profileImg: user?.profileImage,
             };
             this.borrows?.push(convertedItem);
-            console.log(convertedItem);
-          });
         }
         console.log(this.borrows);
       },
@@ -132,8 +128,13 @@ export class BorrowsComponent {
   }
 
   public onAddBorrow(addForm: NgForm): void {
+
     document.getElementById('add-borrow-form')!.click();
-    this.borrowsService.addBorrow(addForm.value).subscribe({
+    let addBorrow : Borrows = addForm.value;
+    if (this.bookId != null) {
+      addBorrow.bookId = this.bookId;
+    }
+    this.borrowsService.addBorrow(addBorrow).subscribe({
       next: (response: Borrows) => {
         this.getBorrows();
         addForm.reset();
@@ -143,5 +144,6 @@ export class BorrowsComponent {
         addForm.reset();
       },
     });
+    this.getBorrows();
   }
 }
