@@ -19,6 +19,7 @@ import {RatingComponent} from "./rating/rating.component";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BorrowsComponent} from "./borrows/borrows.component";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
