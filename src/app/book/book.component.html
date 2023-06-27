@@ -474,6 +474,9 @@
           <p *ngIf="!(borrowBook?.available) && !(returnDate===undefined)">
             Currently this book is not available, but it will be returned on:{{returnDate}}
           </p>
+          <p *ngIf="!(borrowBook?.available) && (returnDate===undefined)">
+            Currently this book is not available.
+          </p>
         </div>
         <div class="modal-footer">
 
