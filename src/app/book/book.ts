@@ -7,5 +7,4 @@ export interface Book{
     coverImage: string;
     category: string;
     isAvailable: string;
-    category: string;
 }
