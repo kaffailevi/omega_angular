@@ -24,11 +24,8 @@
         >
       </li>
       <li class="nav-item inactive">
-        <a
-        *ngIf="role === 'ADMIN'"
-        class="nav-link"
-        (click)="goToUsersPage()"
-        >User Managment<span class="sr-only">(current)</span>
+        <a *ngIf="role === 'ADMIN'" class="nav-link" (click)="goToUsersPage()"
+          >User Managment<span class="sr-only">(current)</span>
         </a>
       </li>
     </ul>
@@ -117,7 +114,7 @@
               ></a>
               <a
                 *ngIf="role === 'ADMIN'"
-                href="/borrow/{{Book.id}}"
+                href="/borrow/{{ Book.id }}"
                 class="btn btn-outline-warning"
                 data-bs-placement="top"
                 data-bs-original-title="Delete"
@@ -125,11 +122,11 @@
               ></a>
               <a
                 *ngIf="role === 'USER'"
-                (click) = "onOpenModal('view',Book)"
+                (click)="onOpenModal('view', Book)"
                 class="btn btn-outline-warning"
                 data-bs-placement="top"
                 data-bs-original-title="Delete"
-              ><i class="fa fa-book"></i
+                ><i class="fa fa-book"></i
               ></a>
             </div>
           </div>
@@ -463,23 +460,24 @@
         </div>
       </div>
     </div>
-<!--    View modal-->
+    <!--    View modal-->
     <div class="modal" id="borrowModal">
       <div class="modal-content" id="borrow-modal-content">
         <div class="modal-content">
-          <h4>Borrow options for this book: {{borrowBook?.title}}</h4>
+          <h4>Borrow options for this book: {{ borrowBook?.title }}</h4>
           <p *ngIf="borrowBook?.available">
             Currently this book is available, and it can be borrowed!
-          </p >
-          <p *ngIf="!(borrowBook?.available) && !(returnDate===undefined)">
-            Currently this book is not available, but it will be returned on:{{returnDate}}
+          </p>
+          <p *ngIf="!borrowBook?.available && !(returnDate === undefined)">
+            Currently this book is not available, but it will be returned on:{{
+              returnDate
+            }}
           </p>
           <p *ngIf="!(borrowBook?.available) && (returnDate===undefined)">
             Currently this book is not available.
           </p>
         </div>
         <div class="modal-footer">
-
           <button
             type="button"
             class="btn btn-outline-secondary"
@@ -488,11 +486,8 @@
             Close
           </button>
         </div>
-
       </div>
-
     </div>
-
   </div>
 
   <!-- Notification for no Books -->

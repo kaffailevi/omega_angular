@@ -194,6 +194,7 @@ export class BookComponent implements OnInit {
       modal?.style.setProperty("display", "none");
       this.returnDate = undefined;
     }
+    this.returnDate = undefined;
   }
 
   onOptionChange(event: any) {

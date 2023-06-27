@@ -1,9 +1,9 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
-
+import { NgModule } from '@angular/core';
 import { AccountService } from '../services/account.service';
 import { Component } from '@angular/core';
-import {MatSnackBar} from "@angular/material/snack-bar";
+import { MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -41,6 +41,7 @@ export class LoginComponent {
           console.log("itt vok");
           if (result) {
             this.router.navigate(['/book']);
+            
             this.showSnackbar("Login successful");
           }
 

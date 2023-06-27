@@ -1,6 +1,11 @@
-<nav class="navbar navbar-expand-lg navbar-dark" >
+<link
+  href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+  rel="stylesheet"
+/>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
   <a class="navbar-brand" style="color: white" href="/book"
-  >Library Management</a
+    >Library Management</a
   >
   <button
     class="navbar-toggler"
@@ -38,40 +43,171 @@
     </button>
   </div>
 </nav>
-
-<main *ngIf="role==='ADMIN'">
-
+<div id="main-container">
   <div class="card">
     <div class="container">
       <div class="image">
-        <img [src]="book?.coverImage" alt="">
+        <img [src]="book?.coverImage" alt="" />
       </div>
       <div class="details">
-        <h2>{{book?.title}}</h2>
-        <h3>{{book?.subtitle}}</h3>
-        <p>Author: <b>{{book?.author}}</b></p>
-        <p>Publishing House: <b>{{book?.publishingHouse}}</b></p>
+        <h2>{{ book?.title }}</h2>
+        <h3>{{ book?.subtitle }}</h3>
+        <p>
+          Author: <b>{{ book?.author }}</b>
+        </p>
+        <p>
+          Publishing House: <b>{{ book?.publishingHouse }}</b>
+        </p>
         <div *ngIf="isLoggedIn">
-          <!--        <button id="add-new-button" (click)="onOpenModal('add',null)">-->
-          <!--            <span>-->
-          <!--              Add new-->
-          <!--            </span>-->
-          <!--        </button>-->
+          <button id="add-new-button" (click)="onOpenModal('add')">
+            <span> Add new </span>
+          </button>
         </div>
       </div>
-
     </div>
   </div>
 
-  <div *ngFor="let borrow of borrows">
-    {{borrow.userEmail}},{{borrow.bookId}},{{borrow.loanDate}},{{borrow.returnDate}}
+  <div class="row flex-lg-nowrap">
+    <div class="col mb-3">
+      <div class="e-panel card">
+        <div class="card-body">
+          <div class="card-title">This book was borrowed by:</div>
+          <div class="e-table">
+            <div class="table-responsive table-lg mt-3">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th class="header"></th>
+                    <th class="max-width header">Name</th>
+                    <th class="sortable header">Loan Date</th>
+                    <th class="sortable header">Return Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let borrow of borrows">
+                    <td class="align-middle text-center">
+                      <div
+                        class="bg-light d-inline-flex justify-content-center align-items-center align-top"
+                        style="width: 35px; height: 35px; border-radius: 3px"
+                      >
+                        <img
+                          src="{{ borrow.profileImg }}"
+                          class="rounded-circle"
+                        />
+                      </div>
+                    </td>
+                    <td class="text-nowrap align-middle">
+                      {{ borrow.userFirstname }} {{ borrow.userLastname }}
+                    </td>
+                    <td class="text-nowrap align-middle">
+                      <span>{{ borrow.loanDate }}</span>
+                    </td>
+                    <td class="text-nowrap align-middle">
+                      <span>{{ borrow.returnDate }}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</main>
+</div>
 
+<div
+  class="modal fade"
+  id="addBorrowModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="addBorrowModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addBorrowModalLabel">Add Book</h5>
+        <button
+          type="button"
+          class="close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #addForm="ngForm" (ngSubmit)="onAddBorrow(addForm)">
+          <div class="form-group">
+            <label for="userId">User ID:</label>
+            <input
+              type="text"
+              ngModel
+              name="userId"
+              class="form-control"
+              id="userId"
+              placeholder="User ID"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+            hidden
+              type="text"
+              ngModel
+              name="bookId"
+              class="form-control"
+              id="bookId"
+              value="{{bookId}}"
+            />
+          </div>
+          <div class="form-group">
+            <label for="loanDate">Loan Date</label>
+            <input
+              type="date"
+              ngModel
+              name="loanDate"
+              class="form-control"
+              id="loanDate"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="returnDate">Return Date</label>
+            <input
+              type="date"
+              ngModel
+              name="returnDate"
+              class="form-control"
+              id="returnDate"
+              required
+            />
+          </div>
+          
+          <div class="modal-footer">
+            <button
+              type="button"
+              id="add-borrow-form"
+              class="btn btn-outline-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              [disabled]="addForm.invalid"
+              type="submit"
+              class="btn btn-outline-success"
+              data-bs-toggle="modal"
+              data-bs-dismiss="modal"
+            >
+              Save changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
-<main *ngIf="!(role==='ADMIN')">
-  YOU HAVE TO BE MANAGER
-</main>
-
-
-
+<!-- <main *ngIf="!(role === 'ADMIN')">YOU HAVE TO BE MANAGER</main> -->
