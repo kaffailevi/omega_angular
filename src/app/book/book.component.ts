@@ -154,7 +154,7 @@ export class BookComponent implements OnInit {
     const container = document.getElementById('main-container')!;
     const button = document.createElement('button');
     if (mode === 'view') {
-      if(!book?.isAvailable)
+      if(!book?.available)
     {
       let borrow:Borrows;
       this.borrowService.getSoonestReturnForBook(book?.id).subscribe(

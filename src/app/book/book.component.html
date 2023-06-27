@@ -408,10 +408,10 @@
       <div class="modal-content" id="borrow-modal-content">
         <div class="modal-content">
           <h4>Borrow options for this book: {{borrowBook?.title}}</h4>
-          <p *ngIf="borrowBook?.isAvailable">
+          <p *ngIf="borrowBook?.available">
             Currently this book is available, and it can be borrowed!
           </p >
-          <p *ngIf="!(borrowBook?.isAvailable)">
+          <p *ngIf="!(borrowBook?.available) && !(returnDate===undefined)">
             Currently this book is not available, but it will be returned on:{{returnDate}}
           </p>
         </div>
