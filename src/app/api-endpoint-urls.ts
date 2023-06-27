@@ -40,6 +40,7 @@ export class APIEndpointURLs {
   public static readonly newBorrow = APIEndpointURLs.borrowsUrl + '/new';
   public static readonly deleteBorrow = APIEndpointURLs.borrowsUrl + '/delete/';
   public static readonly updateBorrow = APIEndpointURLs.borrowsUrl + '/udpate';
+  public static readonly soonestReturnForBook = APIEndpointURLs.borrowsUrl + '/book_id/';
 
 
 }

@@ -109,12 +109,20 @@
                 ><i class="fa fa-times"></i
               ></a>
               <a
-                *ngIf="role === 'USER'"
-                href="/borrow"
+                *ngIf="role === 'ADMIN'"
+                href="/borrow/{{Book.id}}"
                 class="btn btn-outline-warning"
                 data-bs-placement="top"
                 data-bs-original-title="Delete"
                 ><i class="fa fa-book"></i
+              ></a>
+              <a
+                *ngIf="role === 'USER'"
+                (click) = "onOpenModal('view',Book)"
+                class="btn btn-outline-warning"
+                data-bs-placement="top"
+                data-bs-original-title="Delete"
+              ><i class="fa fa-book"></i
               ></a>
             </div>
           </div>
@@ -395,6 +403,33 @@
         </div>
       </div>
     </div>
+<!--    View modal-->
+    <div class="modal" id="borrowModal">
+      <div class="modal-content" id="borrow-modal-content">
+        <div class="modal-content">
+          <h4>Borrow options for this book: {{borrowBook?.title}}</h4>
+          <p *ngIf="borrowBook?.isAvailable">
+            Currently this book is available, and it can be borrowed!
+          </p >
+          <p *ngIf="!(borrowBook?.isAvailable)">
+            Currently this book is not available, but it will be returned on:{{returnDate}}
+          </p>
+        </div>
+        <div class="modal-footer">
+
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="onCloseModal('view')"
+          >
+            Close
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
   </div>
 
   <!-- Notification for no Books -->

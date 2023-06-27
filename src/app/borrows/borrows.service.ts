@@ -39,7 +39,9 @@ export class BorrowsService {
   public getBorrowsReturnDateLessThan(date: string): Observable<Borrows[]> {
     return this.http.get<Borrows[]>(`${this.apiServerUrl}/return_date_less_than/${date}`);
   }
-
+  public getSoonestReturnForBook(id: number | undefined): Observable<Borrows> {
+    return this.http.get<Borrows>(`${this.apiServerUrl}/book_id/${id}`);
+  }
   public addBorrow(borrow: Borrows): Observable<Borrows> {
     return this.http.post<Borrows>(`${this.apiServerUrl}/new`, borrow);
   }
