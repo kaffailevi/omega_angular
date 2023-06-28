@@ -20,7 +20,7 @@ export class RegisterComponent {
       Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')
     ]),
     phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
-    username: ['', Validators.required],
+
     password: ['', [Validators.required, Validators.minLength(6)]],
     occupation: ['', Validators.required],
   });
@@ -52,6 +52,7 @@ export class RegisterComponent {
     }
 
     this.loading = true;
+
     this.accountService.register(this.form.value as any).subscribe({
       next: () => {
         this.router.navigate(['/login'], { relativeTo: this.route });
