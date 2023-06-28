@@ -56,8 +56,8 @@ export class BorrowsComponent {
       },
     });
 
-    this.userService.getAllUsers().subscribe((value) => {this.users = value;this.borrows=[];this.getBorrows();});
-
+    this.userService.getAllUsers().subscribe((value) => {this.users = value;    this.borrows=[];
+      this.getBorrows();});
 
   }
 
@@ -65,17 +65,18 @@ export class BorrowsComponent {
 
   public getBorrows(): void {
     this.borrows = [];
-    this.borrowsService.getBorrows().subscribe({
-      next: (value: Borrows[]) => {
-        for (let item of value) {
-          let userId = item.userId;
-          let bookId = item.bookId;
-          let loanDate = item.loanDate;
-          let returnDate = item.returnDate;
-          let id = item.id;
-          let user = this.users?.find((it) => {
-            return it.id === item.userId;
-          });
+    if (this.bookId != null) {
+      this.borrowsService.getBorrowsByBookId(this.bookId).subscribe({
+        next: (value: Borrows[]) => {
+          for (let item of value) {
+            let userId = item.userId;
+            let bookId = item.bookId;
+            let loanDate = item.loanDate;
+            let returnDate = item.returnDate;
+            let id = item.id;
+            let user = this.users?.find((it) => {
+              return it.id === item.userId;
+            });
 
             const convertedItem: BorrowsTo = {
               id: id,
@@ -89,13 +90,14 @@ export class BorrowsComponent {
               profileImg: user?.profileImage,
             };
             this.borrows?.push(convertedItem);
-        }
-        console.log(this.borrows);
-      },
-      error: (error: any) => {
-        alert(error.message);
-      },
-    });
+          }
+          console.log(this.borrows);
+        },
+        error: (error: any) => {
+          alert(error.message);
+        },
+      });
+    }
   }
 
   public onDeleteBorrows(BorrwowId: number): void {
@@ -168,4 +170,5 @@ export class BorrowsComponent {
       );
     }
   }
+
 }
